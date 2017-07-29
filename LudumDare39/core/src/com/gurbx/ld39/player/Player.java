@@ -26,9 +26,13 @@ public class Player implements GameInterface {
 	private EnemyHandler enemyHandler;
 	
 	private Animation currentAnimation;
-	private Animation stand, jump, run;
+	private Animation stand, jump, run, roll;
 	private float elapsedTime;
 	private boolean flipX;
+	private boolean rolling;
+	private boolean jumping;
+	private final float ROLL_TIME = 1/18f*7f;
+	private float rollingTimer;
 	
 	public Player(World world, TextureAtlas generalAtlas) {
 		this.world = world;
@@ -57,12 +61,12 @@ public class Player implements GameInterface {
 	    	runFrames[i] = atlas.findRegion("playerRun" + (i+1));
 	    }
 	    run = new Animation(1/8f, runFrames);  
-	    //SLIDE
-//		TextureRegion[] slideFrames = new TextureRegion[2];
-//	    for (int i = 0; i < slideFrames.length; i++) {
-//	    	slideFrames[i] = atlas.findRegion("playerSlide" + (i+1));
-//	    }
-//	    slide = new Animation(1/12f, slideFrames);  
+	    //ROLL
+		TextureRegion[] rollFrames = new TextureRegion[7];
+	    for (int i = 0; i < rollFrames.length; i++) {
+	    	rollFrames[i] = atlas.findRegion("playerRoll" + (i+1));
+	    }
+	    roll = new Animation(1/18f, rollFrames);  
 	    //JUMP
 		TextureRegion[] jumpFrames = new TextureRegion[2];
 	    for (int i = 0; i < jumpFrames.length; i++) {
@@ -93,7 +97,7 @@ public class Player implements GameInterface {
 	private void handleAttack(float delta) {
 		if (Gdx.input.isKeyJustPressed(Keys.D)) {
 			ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
-			enemyHandler.attack(position.x, position.y, 32, 1, 1000);
+			enemyHandler.attack(position.x, position.y, 32, 1, 400);
 		}
 		
 	}
@@ -108,43 +112,79 @@ public class Player implements GameInterface {
 			}
 		}
 		
+		if (rolling) currentAnimation = roll;
+		
 	}
 
 	private void handleGravity(float delta) {
 		if (!world.isStoppedByGround(position.x, position.y, width, height)) {
 			yModifier += world.getGravity() * delta;
 		} else {
+			jumping = false;
 			yModifier = 0;
 			position.y = world.getGroundHeight() + height*0.5f;
 			//JUMP
 			if (Gdx.input.isKeyPressed(Keys.UP)) {
-				yModifier = - 10f;
+				yModifier = - 400f;
+				jumping = true;
 			}
 		}
-		position.y -= yModifier;
+		position.y -= yModifier * delta;
 	}
 
 	private void handleMovement(float delta) {
+		rollingTimer-=delta;
+		if (rollingTimer <= 0) rolling = false;
+		
+		boolean moving = false;
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+			moving = true;
 			flipX = true;
-			xModifier -= delta * ACCELERATION;
-			if (xModifier < -MAX_SPEED) xModifier = -MAX_SPEED;
+			if (!rolling) xModifier -= delta * ACCELERATION;
+			if (xModifier < -MAX_SPEED && !rolling) xModifier = -MAX_SPEED;
 		}
 		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			moving = true;
 			flipX = false;
-			xModifier += delta * ACCELERATION;
-			if (xModifier > MAX_SPEED) xModifier = MAX_SPEED;
+			if (!rolling) xModifier += delta * ACCELERATION;
+			if (xModifier > MAX_SPEED && !rolling) xModifier = MAX_SPEED;
 		}
 		
+		//Deacceleration
 		position.x += xModifier;
-		if (xModifier > 0) {
+		if (xModifier > 0 && !jumping) {
 			xModifier -= DEACCELERATION * delta;
+			if (rolling) xModifier -= DEACCELERATION * delta;
 		}
-		if (xModifier < 0) {
+		if (xModifier < 0  && !jumping) {
 			xModifier += DEACCELERATION * delta;
+			if (rolling) xModifier += DEACCELERATION * delta;
 		}
 		if (xModifier < 1f && xModifier > -1f) {
 			xModifier = 0;
+			rolling = false;
+		}
+		
+		//Roll
+		if (Gdx.input.isKeyJustPressed(Keys.DOWN)) {
+			if (rolling) return;
+			elapsedTime = 0;
+			rolling = true;
+			ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
+			rollingTimer = ROLL_TIME;
+			
+			float rollBoost = 15;
+			if (jumping) {
+				yModifier = - 400f;
+				rollBoost = 0;
+			}
+			
+			if (!flipX) {
+				xModifier += rollBoost;
+			}
+			if (flipX) {
+				xModifier -= rollBoost;
+			}
 		}
 		
 	}

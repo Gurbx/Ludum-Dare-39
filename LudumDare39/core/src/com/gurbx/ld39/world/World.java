@@ -13,7 +13,7 @@ import com.gurbx.ld39.Application;
 import com.gurbx.ld39.utils.GameInterface;
 
 public class World implements GameInterface {
-	private final float GRAVITY = 20f;
+	private final float GRAVITY = 800f;
 	private final Application app;
 	private float groundX, groundY;
 	private float groundWidth, groundHeight;

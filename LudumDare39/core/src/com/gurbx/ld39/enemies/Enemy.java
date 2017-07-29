@@ -28,6 +28,7 @@ public class Enemy implements GameInterface {
 	private Animation currentAnimation;
 	private float width, height;
 	private boolean flipX;
+	private boolean jumping;
 	
 	private float dx, dy;
 	
@@ -38,6 +39,7 @@ public class Enemy implements GameInterface {
 		shouldRemove = false;
 		this.position = position;
 		this.flipX = false;
+		jumping = false;
 	}
 	
 	
@@ -74,12 +76,13 @@ public class Enemy implements GameInterface {
 	}
 	
 	private void handleMovement(float delta) {
+		position.x += dx * delta;
+		if (jumping) return;
 		moveTowardsPlayer(delta);
 		if (Math.abs(dx) > 0) {
 			if (dx > 0) dx -= FRICTION * delta;
 			if (dx < 0) dx += FRICTION * delta;
 		}
-		position.x += dx * delta;
 		
 	}
 
@@ -102,10 +105,11 @@ public class Enemy implements GameInterface {
 		if (!world.isStoppedByGround(position.x, position.y, width, height)) {
 			yModifier += world.getGravity() * delta;
 		} else {
+			jumping = false;
 			yModifier = 0;
 			position.y = world.getGroundHeight() + height*0.5f;
 		}
-		position.y -= yModifier;
+		position.y -= yModifier*delta;
 	}
 	
 	
@@ -151,9 +155,9 @@ public class Enemy implements GameInterface {
 		dx = MathUtils.cos(radians) * impact;
 //		dy = MathUtils.sin(radians) * impact;
 		
-		yModifier = - 0.01f*impact;
+		jumping = true;
+		yModifier = - impact;
 		position.y += 1f;
-		position.y -= yModifier;
 		
 	}
 	

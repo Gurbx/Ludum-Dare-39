@@ -1,6 +1,7 @@
 package com.gurbx.ld39.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector3;
@@ -10,6 +11,7 @@ import com.gurbx.ld39.player.Player;
 import com.gurbx.ld39.utils.Input;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld39.utils.sound.SoundHandler;
+import com.gurbx.ld39.utils.timewarp.TimeWarp;
 import com.gurbx.ld39.world.World;
 
 public class PlayScreen extends GameScreen {
@@ -20,6 +22,10 @@ public class PlayScreen extends GameScreen {
 	private Player player;
 	private Input input;
 	private EnemyHandler enemyHandler;
+	
+	
+	private TimeWarp timeWarp;
+	private float timeModifier;
 
 	public PlayScreen(Application app) {
 		super(app);
@@ -27,6 +33,7 @@ public class PlayScreen extends GameScreen {
 
 	@Override
 	public void show() {
+		timeWarp = new TimeWarp();
 //		sound = new SoundHandler(app);
 		generalAtlas = app.assets.get("img/generalPack.atlas", TextureAtlas.class);
 		particleHandler = new ParticleEffectHandler(generalAtlas);
@@ -38,15 +45,21 @@ public class PlayScreen extends GameScreen {
 		player.setEnemyHandler(enemyHandler);
 		
 		Gdx.input.setInputProcessor(input);
-		
 	}
 	
 	private void update(float delta) {
+		timeWarp.update(delta);
+		timeModifier = timeWarp.getTimeModifer();
 //		sound.update(delta);
 		player.update(delta);
-		world.update(delta);
+		world.update(delta*timeModifier);
 		handleCamera(delta);
-		enemyHandler.update(delta);
+		enemyHandler.update(delta*timeModifier);
+		
+		
+		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+			timeWarp.warpTime(15, 1f, 1f, 0.1f);
+		}
 	}
 
 	private void handleCamera(float delta) {
@@ -69,7 +82,7 @@ public class PlayScreen extends GameScreen {
 		app.batch.begin();
 		enemyHandler.render(app.batch);
 		player.render(app.batch);
-		particleHandler.render(app.batch, delta);
+		particleHandler.render(app.batch, delta*timeModifier);
 		app.batch.end();
 		
 	}
