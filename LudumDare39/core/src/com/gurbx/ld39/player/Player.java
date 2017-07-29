@@ -1,16 +1,22 @@
 package com.gurbx.ld39.player;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.gurbx.ld39.enemies.Enemy;
 import com.gurbx.ld39.enemies.EnemyHandler;
 import com.gurbx.ld39.utils.GameInterface;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld39.utils.particles.ParticleEffectType;
+import com.gurbx.ld39.utils.projectile.FriendlyProjectile;
+import com.gurbx.ld39.utils.projectile.ProjectileType;
 import com.gurbx.ld39.world.World;
 
 public class Player implements GameInterface {
@@ -20,6 +26,7 @@ public class Player implements GameInterface {
 	private final float MAX_SPEED = 5f;
 	private final float ACCELERATION = 100f;
 	private final float DEACCELERATION = 20f;
+	private final float FRICTION = 500f;
 	private float xModifier;
 	private float yModifier;
 	
@@ -34,8 +41,14 @@ public class Player implements GameInterface {
 	private boolean flipX;
 	private boolean rolling;
 	private boolean jumping;
+	private boolean justHit;
 	private final float ROLL_TIME = 1/18f*7f;
 	private float rollingTimer;
+	
+	private float dx;
+	
+	private PlayerProjectileHandler projectileHandler;
+	private TextureRegion projectileTex;
 	
 	public Player(World world, TextureAtlas generalAtlas) {
 		health = MAX_HEALTH;
@@ -43,10 +56,13 @@ public class Player implements GameInterface {
 		initAnimations(generalAtlas);
 		position = new Vector2(world.getGroundWidth()*0.5f, world.getGroundHeight() + height*0.5f);
 		flipX = false;
+		projectileTex = generalAtlas.findRegion("particle1");
+		justHit = false;
 	}
 	
-	public void setEnemyHandler(EnemyHandler enemyHandler) {
+	public void setEnemyHandler(EnemyHandler enemyHandler, PlayerProjectileHandler playerProjectileHandler) {
 		this.enemyHandler = enemyHandler;
+		this.projectileHandler = playerProjectileHandler;
 	}
 
 	private void initAnimations(TextureAtlas atlas) {
@@ -104,6 +120,15 @@ public class Player implements GameInterface {
 			enemyHandler.attack(position.x, position.y, 32, 1, 400);
 		}
 		
+		if (Gdx.input.isKeyJustPressed(Keys.S)) {
+			float modifier = 5;
+			if (flipX) modifier = -5;
+			projectileHandler.addProjectile(new FriendlyProjectile(position.x + modifier, position.y, position.x + modifier*2,  position.y, 
+					700, projectileTex, enemyHandler.getEnemies(), 1, 200, ProjectileType.PLAYER_ATTACK));
+			ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x + modifier, position.y);
+		}
+		
+		
 	}
 
 	private void handleAnimations() {
@@ -125,8 +150,10 @@ public class Player implements GameInterface {
 			yModifier += world.getGravity() * delta;
 		} else {
 			jumping = false;
+			justHit = false;
 			yModifier = 0;
 			position.y = world.getGroundHeight() + height*0.5f;
+			dx = 0;
 			//JUMP
 			if (Gdx.input.isKeyPressed(Keys.UP)) {
 				yModifier = - 400f;
@@ -137,17 +164,25 @@ public class Player implements GameInterface {
 	}
 
 	private void handleMovement(float delta) {
+		//Handle impact
+		position.x += dx * delta;
+//		if (justHit) return;
+		if (Math.abs(dx) > 0 && !jumping) {
+			if (dx > 0) dx -= FRICTION * delta;
+			if (dx < 0) dx += FRICTION * delta;
+		}
+		
 		rollingTimer-=delta;
 		if (rollingTimer <= 0) rolling = false;
 		
 		boolean moving = false;
-		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+		if (Gdx.input.isKeyPressed(Keys.LEFT)  && !justHit) {
 			moving = true;
 			flipX = true;
 			if (!rolling) xModifier -= delta * ACCELERATION;
 			if (xModifier < -MAX_SPEED && !rolling) xModifier = -MAX_SPEED;
 		}
-		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+		if (Gdx.input.isKeyPressed(Keys.RIGHT) && !justHit) {
 			moving = true;
 			flipX = false;
 			if (!rolling) xModifier += delta * ACCELERATION;
@@ -170,11 +205,11 @@ public class Player implements GameInterface {
 		}
 		
 		//Roll
-		if (Gdx.input.isKeyJustPressed(Keys.DOWN)) {
+		if (Gdx.input.isKeyJustPressed(Keys.DOWN)  && !justHit) {
 			if (rolling) return;
 			elapsedTime = 0;
 			rolling = true;
-			ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
+			ParticleEffectHandler.addParticleEffect(ParticleEffectType.CLOUD, position.x, position.y);
 			rollingTimer = ROLL_TIME;
 			
 			float rollBoost = 15;
@@ -222,6 +257,24 @@ public class Player implements GameInterface {
 
 	public float getMaxHealth() {
 		return MAX_HEALTH;
+	}
+
+	public void damage(float damage, float impact, float x, float y) {
+		if (rolling) return;
+		ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD1, position.x, position.y);
+		if (!jumping) ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD_GROUND, position.x, position.y-height*0.5f);
+		health -= damage;
+		
+		//Handle impact
+		float radians = (float) Math.atan2(position.y - y, position.x - x);
+		dx = MathUtils.cos(radians) * impact;
+//		dy = MathUtils.sin(radians) * impact;
+
+		justHit = true;
+		jumping = true;
+		yModifier = - impact;
+		position.y += 1f;
+		
 	}
 
 

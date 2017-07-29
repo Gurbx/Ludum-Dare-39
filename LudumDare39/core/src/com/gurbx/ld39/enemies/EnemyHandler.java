@@ -22,25 +22,9 @@ public class EnemyHandler implements GameInterface {
 		enemies = new ArrayList<>();
 		
 		enemies.add(new Enemy(atlas, new Vector2(400, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(500, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(600, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(700, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(800, 600), world, player));
 		enemies.add(new Enemy(atlas, new Vector2(400, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(500, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(600, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(700, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(800, 600), world, player));
 		enemies.add(new Enemy(atlas, new Vector2(400, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(500, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(600, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(700, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(800, 600), world, player));
 		enemies.add(new Enemy(atlas, new Vector2(400, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(500, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(600, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(700, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(800, 600), world, player));
 	}
 
 	@Override
@@ -52,7 +36,6 @@ public class EnemyHandler implements GameInterface {
 				enemies.remove(i);
 			}
 		}
-		
 	}
 
 	@Override
@@ -77,6 +60,10 @@ public class EnemyHandler implements GameInterface {
 				enemies.get(i).damage(damage, imp, x,y);
 			}
 		}
+	}
+
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
 	}
 
 }

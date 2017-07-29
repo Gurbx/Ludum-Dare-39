@@ -15,6 +15,8 @@ public class UI implements GameInterface {
 	private Player player;
 	private Sprite hp;
 	private Sprite bar;
+	private Sprite timeWarp;
+	private float timeModifier;
 	
 	public UI(TextureAtlas atlas, Application app, Player player) {
 		this.app = app;
@@ -23,16 +25,18 @@ public class UI implements GameInterface {
 		hp.setPosition(Constants.UI_VIRTUAL_WIDTH - 80, Constants.UI_VIRTUAL_HEIGHT - 20);
 		bar = new Sprite(atlas.findRegion("bar"));
 		bar.setPosition(Constants.UI_VIRTUAL_WIDTH - 60, Constants.UI_VIRTUAL_HEIGHT - 20);
+		timeWarp = new Sprite(atlas.findRegion("timeWarp"));
+		timeWarp.setPosition(0, 0);
 	}
 
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
-		
+		timeWarp.setAlpha(1 - timeModifier);
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
+		timeWarp.draw(batch);
 		bar.draw(batch);
 		hp.draw(batch);
 	}
@@ -47,6 +51,11 @@ public class UI implements GameInterface {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
+		
+	}
+
+	public void setTimeModifier(float timeModifier) {
+		this.timeModifier = timeModifier;
 		
 	}
 

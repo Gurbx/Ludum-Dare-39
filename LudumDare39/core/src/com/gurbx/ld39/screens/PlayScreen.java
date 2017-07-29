@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.gurbx.ld39.Application;
 import com.gurbx.ld39.enemies.EnemyHandler;
 import com.gurbx.ld39.player.Player;
+import com.gurbx.ld39.player.PlayerProjectileHandler;
 import com.gurbx.ld39.ui.UI;
 import com.gurbx.ld39.utils.Input;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
@@ -24,6 +25,7 @@ public class PlayScreen extends GameScreen {
 	private Input input;
 	private EnemyHandler enemyHandler;
 	private UI ui;
+	private PlayerProjectileHandler playerProjectileHandler;
 	
 	private TimeWarp timeWarp;
 	private float timeModifier;
@@ -43,7 +45,8 @@ public class PlayScreen extends GameScreen {
 		app.camera.position.set(player.getPosition(), 0);
 		input = new Input(player);
 		enemyHandler = new EnemyHandler(generalAtlas, world, player);
-		player.setEnemyHandler(enemyHandler);
+		playerProjectileHandler = new PlayerProjectileHandler(enemyHandler.getEnemies());
+		player.setEnemyHandler(enemyHandler, playerProjectileHandler);
 		ui = new UI(generalAtlas, app, player);
 		
 		Gdx.input.setInputProcessor(input);
@@ -52,8 +55,10 @@ public class PlayScreen extends GameScreen {
 	private void update(float delta) {
 		timeWarp.update(delta);
 		timeModifier = timeWarp.getTimeModifer();
+		ui.setTimeModifier(timeModifier);
 //		sound.update(delta);
 		player.update(delta);
+		playerProjectileHandler.update(delta * timeModifier);
 		world.update(delta*timeModifier);
 		handleCamera(delta);
 		enemyHandler.update(delta*timeModifier);
@@ -61,7 +66,7 @@ public class PlayScreen extends GameScreen {
 		
 		
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
-			timeWarp.warpTime(15, 1f, 1f, 0.1f);
+			timeWarp.warpTime(5.5f, 1f, 1f, 0.1f);
 		}
 	}
 
@@ -86,6 +91,7 @@ public class PlayScreen extends GameScreen {
 		particleHandler.renderBehindTowers(app.batch, delta * timeModifier);
 		enemyHandler.render(app.batch);
 		player.render(app.batch);
+		playerProjectileHandler.render(app.batch);
 		particleHandler.render(app.batch, delta*timeModifier);
 		app.batch.end();
 		
@@ -128,6 +134,7 @@ public class PlayScreen extends GameScreen {
 		player.dispose();
 		enemyHandler.dispose();
 		ui.dispose();
+		playerProjectileHandler.dispose();
 		
 	}
 

@@ -18,6 +18,9 @@ public class Enemy implements GameInterface {
 	private Player player;
 	private Vector2 position;
 	private float health = 10;
+	private float attackCooldown = 1f;
+	private float attackTimer;
+	private float damage = 1;
 	
 	private World world;
 	private boolean shouldRemove;
@@ -44,7 +47,7 @@ public class Enemy implements GameInterface {
 	
 	
 	private void initAnimations(TextureAtlas atlas) {
-		elapsedTime = 0;
+		elapsedTime = (float) (Math.random()*3f);
 		//STAND ANIMATION
 		TextureRegion[] standFrames = new TextureRegion[4];
 	    for (int i = 0; i < standFrames.length; i++) {
@@ -54,9 +57,9 @@ public class Enemy implements GameInterface {
 		this.width = standFrames[0].getRegionWidth();
 		this.height = standFrames[0].getRegionHeight();
 	    //RUN
-		TextureRegion[] runFrames = new TextureRegion[8];
+		TextureRegion[] runFrames = new TextureRegion[4];
 	    for (int i = 0; i < runFrames.length; i++) {
-	    	runFrames[i] = atlas.findRegion("playerRun" + (i+1));
+	    	runFrames[i] = atlas.findRegion("zombieRun" + (i+1));
 	    }
 	    run = new Animation(1/12f, runFrames);  
 	    
@@ -96,7 +99,16 @@ public class Enemy implements GameInterface {
 		if (player.getPosition().x > position.x) {
 			position.x += SPEED * delta;
 			flipX = false;
-		} 
+		}
+		//Handle attack
+		attackTimer-=delta;
+		if (attackTimer <= 0) {
+			//Check if close enough to attack
+			if (overlaps(player.getPosition().x, player.getPosition().y, width + 10)) {
+				attackTimer = attackCooldown;
+				player.damage(damage, 200, position.x, position.y);
+			}
+		}
 		
 	}
 
@@ -159,7 +171,10 @@ public class Enemy implements GameInterface {
 		jumping = true;
 		yModifier = - impact;
 		position.y += 1f;
-		
+	}
+	
+	public Vector2 getPosition() {
+		return position;
 	}
 	
 	
