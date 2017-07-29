@@ -3,10 +3,31 @@ generalPack.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-box
+playerStand1
   rotate: false
   xy: 1, 1
-  size: 32, 32
-  orig: 32, 32
+  size: 30, 49
+  orig: 30, 49
+  offset: 0, 0
+  index: -1
+playerStand2
+  rotate: false
+  xy: 33, 1
+  size: 30, 49
+  orig: 30, 49
+  offset: 0, 0
+  index: -1
+playerStand3
+  rotate: false
+  xy: 65, 1
+  size: 30, 49
+  orig: 30, 49
+  offset: 0, 0
+  index: -1
+playerStand4
+  rotate: false
+  xy: 97, 1
+  size: 30, 49
+  orig: 30, 49
   offset: 0, 0
   index: -1
