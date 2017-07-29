@@ -149,6 +149,7 @@ public class Enemy implements GameInterface {
 		health -= damage;
 		if (health < 0) shouldRemove = true;
 		ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD1, position.x, position.y);
+		if (!jumping) ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD_GROUND, position.x, position.y-height*0.5f);
 		
 		//Handle impact
 		float radians = (float) Math.atan2(position.y - y, position.x - x);

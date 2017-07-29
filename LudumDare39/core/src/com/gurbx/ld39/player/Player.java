@@ -14,6 +14,9 @@ import com.gurbx.ld39.utils.particles.ParticleEffectType;
 import com.gurbx.ld39.world.World;
 
 public class Player implements GameInterface {
+	private float health;
+	private final int MAX_HEALTH = 100;
+	
 	private final float MAX_SPEED = 5f;
 	private final float ACCELERATION = 100f;
 	private final float DEACCELERATION = 20f;
@@ -35,6 +38,7 @@ public class Player implements GameInterface {
 	private float rollingTimer;
 	
 	public Player(World world, TextureAtlas generalAtlas) {
+		health = MAX_HEALTH;
 		this.world = world;
 		initAnimations(generalAtlas);
 		position = new Vector2(world.getGroundWidth()*0.5f, world.getGroundHeight() + height*0.5f);
@@ -210,6 +214,14 @@ public class Player implements GameInterface {
 
 	public Vector2 getPosition() {
 		return position;
+	}
+	
+	public float getHealth() {
+		return health;
+	}
+
+	public float getMaxHealth() {
+		return MAX_HEALTH;
 	}
 
 

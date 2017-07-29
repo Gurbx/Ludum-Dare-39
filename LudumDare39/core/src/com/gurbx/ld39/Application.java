@@ -71,5 +71,6 @@ public class Application extends Game {
 		batch.dispose();
 		loadingScreen.dispose();
 		playScreen.dispose();
+		shapeRenderer.dispose();
 	}
 }

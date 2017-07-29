@@ -2,6 +2,7 @@ package com.gurbx.ld39.utils.particles;
 
 public enum ParticleEffectType {
 	BLOOD1("img/blood1.p", 10, false),
+	BLOOD_GROUND("img/bloodGround.p", 100, true),
 	HIT("img/hi1t.p", 10, false);
 	
 	private String path;

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.gurbx.ld39.Application;
 import com.gurbx.ld39.enemies.EnemyHandler;
 import com.gurbx.ld39.player.Player;
+import com.gurbx.ld39.ui.UI;
 import com.gurbx.ld39.utils.Input;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld39.utils.sound.SoundHandler;
@@ -22,7 +23,7 @@ public class PlayScreen extends GameScreen {
 	private Player player;
 	private Input input;
 	private EnemyHandler enemyHandler;
-	
+	private UI ui;
 	
 	private TimeWarp timeWarp;
 	private float timeModifier;
@@ -43,6 +44,7 @@ public class PlayScreen extends GameScreen {
 		input = new Input(player);
 		enemyHandler = new EnemyHandler(generalAtlas, world, player);
 		player.setEnemyHandler(enemyHandler);
+		ui = new UI(generalAtlas, app, player);
 		
 		Gdx.input.setInputProcessor(input);
 	}
@@ -55,6 +57,7 @@ public class PlayScreen extends GameScreen {
 		world.update(delta*timeModifier);
 		handleCamera(delta);
 		enemyHandler.update(delta*timeModifier);
+		ui.update(delta);
 		
 		
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
@@ -80,9 +83,18 @@ public class PlayScreen extends GameScreen {
 		
 		app.batch.setProjectionMatrix(app.camera.combined);
 		app.batch.begin();
+		particleHandler.renderBehindTowers(app.batch, delta * timeModifier);
 		enemyHandler.render(app.batch);
 		player.render(app.batch);
 		particleHandler.render(app.batch, delta*timeModifier);
+		app.batch.end();
+		
+		app.shapeRenderer.setProjectionMatrix(app.uiCamera.combined);
+		ui.renderBars();
+		
+		app.batch.setProjectionMatrix(app.uiCamera.combined);
+		app.batch.begin();
+		ui.render(app.batch);
 		app.batch.end();
 		
 	}
@@ -115,6 +127,7 @@ public class PlayScreen extends GameScreen {
 		world.dispose();
 		player.dispose();
 		enemyHandler.dispose();
+		ui.dispose();
 		
 	}
 
