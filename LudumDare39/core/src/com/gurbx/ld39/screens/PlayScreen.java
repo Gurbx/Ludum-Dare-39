@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector3;
 import com.gurbx.ld39.Application;
+import com.gurbx.ld39.enemies.EnemyHandler;
 import com.gurbx.ld39.player.Player;
 import com.gurbx.ld39.utils.Input;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
@@ -18,6 +19,7 @@ public class PlayScreen extends GameScreen {
 	private World world;
 	private Player player;
 	private Input input;
+	private EnemyHandler enemyHandler;
 
 	public PlayScreen(Application app) {
 		super(app);
@@ -27,11 +29,13 @@ public class PlayScreen extends GameScreen {
 	public void show() {
 //		sound = new SoundHandler(app);
 		generalAtlas = app.assets.get("img/generalPack.atlas", TextureAtlas.class);
-//		particleHandler = new ParticleEffectHandler(generalAtlas)
+		particleHandler = new ParticleEffectHandler(generalAtlas);
 		world = new World(app);
 		player = new Player(world, generalAtlas);
 		app.camera.position.set(player.getPosition(), 0);
 		input = new Input(player);
+		enemyHandler = new EnemyHandler(generalAtlas, world, player);
+		player.setEnemyHandler(enemyHandler);
 		
 		Gdx.input.setInputProcessor(input);
 		
@@ -42,13 +46,14 @@ public class PlayScreen extends GameScreen {
 		player.update(delta);
 		world.update(delta);
 		handleCamera(delta);
+		enemyHandler.update(delta);
 	}
 
 	private void handleCamera(float delta) {
 		float lerp = 10f;
 		Vector3 position = app.camera.position;
 		position.x += (player.getPosition().x  - position.x) * lerp * delta;
-		position.y += (player.getPosition().y + 50  - position.y) * lerp * delta;
+		position.y += (player.getPosition().y + 30  - position.y) * lerp * delta;
 		
 		app.camera.update();
 	}
@@ -56,14 +61,15 @@ public class PlayScreen extends GameScreen {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(0.5f, 0.7f, 0.9f, 1);
+		Gdx.gl.glClearColor(0.4f, 0.7f, 0.9f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		world.renderMap();
 		
 		app.batch.setProjectionMatrix(app.camera.combined);
 		app.batch.begin();
+		enemyHandler.render(app.batch);
 		player.render(app.batch);
-//		particleHandler.render(app.batch, delta);
+		particleHandler.render(app.batch, delta);
 		app.batch.end();
 		
 	}
@@ -90,11 +96,12 @@ public class PlayScreen extends GameScreen {
 
 	@Override
 	public void dispose() {
-//		particleHandler.dispose();
+		particleHandler.dispose();
 //		sound.dispose();
 		generalAtlas.dispose();
 		world.dispose();
 		player.dispose();
+		enemyHandler.dispose();
 		
 	}
 

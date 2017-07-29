@@ -7,11 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.gurbx.ld39.enemies.EnemyHandler;
 import com.gurbx.ld39.utils.GameInterface;
+import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
+import com.gurbx.ld39.utils.particles.ParticleEffectType;
 import com.gurbx.ld39.world.World;
 
 public class Player implements GameInterface {
-	private final float MAX_SPEED = 10f;
+	private final float MAX_SPEED = 5f;
 	private final float ACCELERATION = 100f;
 	private final float DEACCELERATION = 20f;
 	private float xModifier;
@@ -20,6 +23,7 @@ public class Player implements GameInterface {
 	private Vector2 position;
 	private float width, height;
 	private World world;
+	private EnemyHandler enemyHandler;
 	
 	private Animation currentAnimation;
 	private Animation stand, jump, run;
@@ -31,6 +35,10 @@ public class Player implements GameInterface {
 		initAnimations(generalAtlas);
 		position = new Vector2(world.getGroundWidth()*0.5f, world.getGroundHeight() + height*0.5f);
 		flipX = false;
+	}
+	
+	public void setEnemyHandler(EnemyHandler enemyHandler) {
+		this.enemyHandler = enemyHandler;
 	}
 
 	private void initAnimations(TextureAtlas atlas) {
@@ -48,7 +56,7 @@ public class Player implements GameInterface {
 	    for (int i = 0; i < runFrames.length; i++) {
 	    	runFrames[i] = atlas.findRegion("playerRun" + (i+1));
 	    }
-	    run = new Animation(1/12f, runFrames);  
+	    run = new Animation(1/8f, runFrames);  
 	    //SLIDE
 //		TextureRegion[] slideFrames = new TextureRegion[2];
 //	    for (int i = 0; i < slideFrames.length; i++) {
@@ -60,7 +68,7 @@ public class Player implements GameInterface {
 	    for (int i = 0; i < jumpFrames.length; i++) {
 	    	jumpFrames[i] = atlas.findRegion("playerJump" + (i+1));
 	    }
-	    jump = new Animation(1/12f, jumpFrames);
+	    jump = new Animation(1/6f, jumpFrames);
 	    //LAND
 //		TextureRegion[] landFrames = new TextureRegion[3];
 //	    for (int i = 0; i < landFrames.length; i++) {
@@ -79,6 +87,14 @@ public class Player implements GameInterface {
 		handleMovement(delta);
 		handleGravity(delta);
 		handleAnimations();
+		handleAttack(delta);
+	}
+
+	private void handleAttack(float delta) {
+		if (Gdx.input.isKeyJustPressed(Keys.D)) {
+			ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
+			enemyHandler.attack(position.x, position.y, 32, 1, 1000);
+		}
 		
 	}
 
@@ -106,7 +122,6 @@ public class Player implements GameInterface {
 			}
 		}
 		position.y -= yModifier;
-		
 	}
 
 	private void handleMovement(float delta) {
@@ -156,6 +171,6 @@ public class Player implements GameInterface {
 	public Vector2 getPosition() {
 		return position;
 	}
-	
+
 
 }

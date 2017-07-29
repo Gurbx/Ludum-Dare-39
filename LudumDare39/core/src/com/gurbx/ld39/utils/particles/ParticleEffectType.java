@@ -1,7 +1,8 @@
 package com.gurbx.ld39.utils.particles;
 
 public enum ParticleEffectType {
-	BLOOD_SPLATTER("img/bloodSplatter.p", 100, true);
+	BLOOD1("img/blood1.p", 10, false),
+	HIT("img/hi1t.p", 10, false);
 	
 	private String path;
 	private int poolSIze;
