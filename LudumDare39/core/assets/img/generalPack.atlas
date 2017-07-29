@@ -45,6 +45,13 @@ playerRun1
   orig: 32, 38
   offset: 0, 0
   index: -1
+playerRun5
+  rotate: false
+  xy: 137, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
 playerRun2
   rotate: false
   xy: 171, 1
@@ -52,7 +59,35 @@ playerRun2
   orig: 32, 38
   offset: 0, 0
   index: -1
+playerRun4
+  rotate: false
+  xy: 171, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerRun6
+  rotate: false
+  xy: 171, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerRun8
+  rotate: false
+  xy: 171, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
 playerRun3
+  rotate: false
+  xy: 205, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerRun7
   rotate: false
   xy: 205, 1
   size: 32, 38
@@ -83,6 +118,20 @@ playerStand1
 playerStand2
   rotate: false
   xy: 341, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerStand3
+  rotate: false
+  xy: 375, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerStand4
+  rotate: false
+  xy: 409, 1
   size: 32, 38
   orig: 32, 38
   offset: 0, 0

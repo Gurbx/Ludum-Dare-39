@@ -45,7 +45,7 @@ public class PlayScreen extends GameScreen {
 	}
 
 	private void handleCamera(float delta) {
-		float lerp = 5f;
+		float lerp = 10f;
 		Vector3 position = app.camera.position;
 		position.x += (player.getPosition().x  - position.x) * lerp * delta;
 		position.y += (player.getPosition().y + 50  - position.y) * lerp * delta;

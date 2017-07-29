@@ -22,7 +22,7 @@ public class Player implements GameInterface {
 	private World world;
 	
 	private Animation currentAnimation;
-	private Animation stand, jump, run, land, slide;
+	private Animation stand, jump, run;
 	private float elapsedTime;
 	private boolean flipX;
 	
@@ -36,23 +36,25 @@ public class Player implements GameInterface {
 	private void initAnimations(TextureAtlas atlas) {
 		elapsedTime = 0;
 		//STAND ANIMATION
-		TextureRegion[] standFrames = new TextureRegion[2];
+		TextureRegion[] standFrames = new TextureRegion[4];
 	    for (int i = 0; i < standFrames.length; i++) {
 	    	standFrames[i] = atlas.findRegion("playerStand" + (i+1));
 	    }
-	    stand = new Animation(1/6f, standFrames);  
+	    stand = new Animation(1/8f, standFrames);  
+		this.width = standFrames[0].getRegionWidth();
+		this.height = standFrames[0].getRegionHeight();
 	    //RUN
-		TextureRegion[] runFrames = new TextureRegion[3];
+		TextureRegion[] runFrames = new TextureRegion[8];
 	    for (int i = 0; i < runFrames.length; i++) {
 	    	runFrames[i] = atlas.findRegion("playerRun" + (i+1));
 	    }
 	    run = new Animation(1/12f, runFrames);  
 	    //SLIDE
-		TextureRegion[] slideFrames = new TextureRegion[2];
-	    for (int i = 0; i < slideFrames.length; i++) {
-	    	slideFrames[i] = atlas.findRegion("playerSlide" + (i+1));
-	    }
-	    slide = new Animation(1/12f, slideFrames);  
+//		TextureRegion[] slideFrames = new TextureRegion[2];
+//	    for (int i = 0; i < slideFrames.length; i++) {
+//	    	slideFrames[i] = atlas.findRegion("playerSlide" + (i+1));
+//	    }
+//	    slide = new Animation(1/12f, slideFrames);  
 	    //JUMP
 		TextureRegion[] jumpFrames = new TextureRegion[2];
 	    for (int i = 0; i < jumpFrames.length; i++) {
@@ -60,13 +62,13 @@ public class Player implements GameInterface {
 	    }
 	    jump = new Animation(1/12f, jumpFrames);
 	    //LAND
-		TextureRegion[] landFrames = new TextureRegion[3];
-	    for (int i = 0; i < landFrames.length; i++) {
-	    	landFrames[i] = atlas.findRegion("playerLand" + (i+1));
-	    }
-		this.width = landFrames[0].getRegionWidth();
-		this.height = landFrames[0].getRegionHeight();
-	    land = new Animation(1/12f, landFrames);  
+//		TextureRegion[] landFrames = new TextureRegion[3];
+//	    for (int i = 0; i < landFrames.length; i++) {
+//	    	landFrames[i] = atlas.findRegion("playerLand" + (i+1));
+//	    }
+//		this.width = landFrames[0].getRegionWidth();
+//		this.height = landFrames[0].getRegionHeight();
+//	    land = new Animation(1/12f, landFrames);  
 	    
 	    currentAnimation = stand;
 	}
@@ -85,12 +87,8 @@ public class Player implements GameInterface {
 			currentAnimation = jump;
 		} else {
 			currentAnimation = stand;
-			if (Math.abs(xModifier) > 5) {
+			if (Math.abs(xModifier) > 1) {
 				currentAnimation = run;
-			} else {
-				if (Math.abs(xModifier) > 0) {
-					currentAnimation = slide;
-				}
 			}
 		}
 		
