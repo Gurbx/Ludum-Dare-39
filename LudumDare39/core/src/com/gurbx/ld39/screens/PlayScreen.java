@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.gurbx.ld39.Application;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld39.utils.sound.SoundHandler;
+import com.gurbx.ld39.world.World;
 
 public class PlayScreen extends GameScreen {
 	private TextureAtlas generalAtlas;
 	private ParticleEffectHandler particleHandler;
-	private SoundHandler sound;
+//	private SoundHandler sound;
+	private World world;
 
 	public PlayScreen(Application app) {
 		super(app);
@@ -18,14 +20,16 @@ public class PlayScreen extends GameScreen {
 
 	@Override
 	public void show() {
-		sound = new SoundHandler(app);
+//		sound = new SoundHandler(app);
 		generalAtlas = app.assets.get("img/generalPack.atlas", TextureAtlas.class);
 //		particleHandler = new ParticleEffectHandler(generalAtlas)
+		world = new World(app);
 		
 	}
 	
 	private void update(float delta) {
-		sound.update(delta);
+//		sound.update(delta);
+		world.update(delta);
 		
 	}
 
@@ -34,6 +38,8 @@ public class PlayScreen extends GameScreen {
 		update(delta);
 		Gdx.gl.glClearColor(0, 0, 0.5f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		world.renderMap();
+		
 		app.batch.setProjectionMatrix(app.camera.combined);
 		app.batch.begin();
 //		particleHandler.render(app.batch, delta);
@@ -64,8 +70,9 @@ public class PlayScreen extends GameScreen {
 	@Override
 	public void dispose() {
 //		particleHandler.dispose();
-		sound.dispose();
+//		sound.dispose();
 		generalAtlas.dispose();
+		world.dispose();
 		
 	}
 

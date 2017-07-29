@@ -1,9 +1,12 @@
 package com.gurbx.ld39.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.gurbx.ld39.Application;
 import com.gurbx.ld39.utils.sound.Sounds;
 
@@ -22,6 +25,10 @@ public class LoadingScreen extends GameScreen {
 
 	private void loadGeneralAssets() {
 		app.assets.load("img/generalPack.atlas", TextureAtlas.class);
+		
+		//Load tiled map
+		app.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+		app.assets.load("maps/worldMap.tmx", TiledMap.class);
 		
 	}
 	
