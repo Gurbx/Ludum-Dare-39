@@ -13,6 +13,7 @@ import com.gurbx.ld39.Application;
 import com.gurbx.ld39.utils.GameInterface;
 
 public class World implements GameInterface {
+	private final float GRAVITY = 30f;
 	private final Application app;
 	private float groundX, groundY;
 	private float groundWidth, groundHeight;
@@ -61,6 +62,14 @@ public class World implements GameInterface {
 		
 	}
 	
+	public boolean isStoppedByGround(float x, float y, float width, float height) {
+		if (groundX <= x + width*0.5f && (groundX + groundWidth) >= (x - width*0.5f) &&
+				y-height*0.5f <= groundHeight) {
+			return true;
+		}
+		return false;
+	}
+	
 	
 	@Override
 	public void dispose() {
@@ -90,6 +99,10 @@ public class World implements GameInterface {
 
 	public float getLevelHeight() {
 		return levelHeight;
+	}
+	
+	public float getGravity() {
+		return GRAVITY;
 	}
 	
 	

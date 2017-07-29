@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector3;
 import com.gurbx.ld39.Application;
 import com.gurbx.ld39.player.Player;
+import com.gurbx.ld39.utils.Input;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld39.utils.sound.SoundHandler;
 import com.gurbx.ld39.world.World;
@@ -16,6 +17,7 @@ public class PlayScreen extends GameScreen {
 //	private SoundHandler sound;
 	private World world;
 	private Player player;
+	private Input input;
 
 	public PlayScreen(Application app) {
 		super(app);
@@ -29,6 +31,9 @@ public class PlayScreen extends GameScreen {
 		world = new World(app);
 		player = new Player(world, generalAtlas);
 		app.camera.position.set(player.getPosition(), 0);
+		input = new Input(player);
+		
+		Gdx.input.setInputProcessor(input);
 		
 	}
 	
@@ -43,7 +48,7 @@ public class PlayScreen extends GameScreen {
 		float lerp = 5f;
 		Vector3 position = app.camera.position;
 		position.x += (player.getPosition().x  - position.x) * lerp * delta;
-		position.y += (player.getPosition().y  - position.y) * lerp * delta;
+		position.y += (player.getPosition().y + 50  - position.y) * lerp * delta;
 		
 		app.camera.update();
 	}
@@ -51,7 +56,7 @@ public class PlayScreen extends GameScreen {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(0, 0, 0.5f, 1);
+		Gdx.gl.glClearColor(0.5f, 0.7f, 0.9f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		world.renderMap();
 		

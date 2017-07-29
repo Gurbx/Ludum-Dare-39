@@ -3,31 +3,87 @@ generalPack.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-playerStand1
+playerJump1
   rotate: false
   xy: 1, 1
-  size: 30, 49
-  orig: 30, 49
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerJump2
+  rotate: false
+  xy: 35, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerLand1
+  rotate: false
+  xy: 69, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerLand3
+  rotate: false
+  xy: 69, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerLand2
+  rotate: false
+  xy: 103, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerRun1
+  rotate: false
+  xy: 137, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerRun2
+  rotate: false
+  xy: 171, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerRun3
+  rotate: false
+  xy: 205, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerSlide1
+  rotate: false
+  xy: 239, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerSlide2
+  rotate: false
+  xy: 273, 1
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerStand1
+  rotate: false
+  xy: 307, 1
+  size: 32, 38
+  orig: 32, 38
   offset: 0, 0
   index: -1
 playerStand2
   rotate: false
-  xy: 33, 1
-  size: 30, 49
-  orig: 30, 49
-  offset: 0, 0
-  index: -1
-playerStand3
-  rotate: false
-  xy: 65, 1
-  size: 30, 49
-  orig: 30, 49
-  offset: 0, 0
-  index: -1
-playerStand4
-  rotate: false
-  xy: 97, 1
-  size: 30, 49
-  orig: 30, 49
+  xy: 341, 1
+  size: 32, 38
+  orig: 32, 38
   offset: 0, 0
   index: -1
