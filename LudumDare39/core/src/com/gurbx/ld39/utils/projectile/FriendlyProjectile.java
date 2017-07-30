@@ -32,7 +32,7 @@ public class FriendlyProjectile extends Projectile {
 				default:
 					break;
 				}
-				enemies.get(i).damage(damage, (float) (Math.random()*impact), x, y);
+				enemies.get(i).damage(damage, impact*0.5f + (float) (Math.random()*impact*0.5f), x, y);
 				shouldRemove = true;
 			}
 		}

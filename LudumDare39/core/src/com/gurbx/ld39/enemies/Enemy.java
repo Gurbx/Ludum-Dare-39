@@ -44,7 +44,7 @@ public class Enemy implements GameInterface {
 		shouldRemove = false;
 		this.position = position;
 		this.flipX = false;
-		jumping = false;
+		jumping = true;
 		targetGenerator = world.getClosestPowerGenerator(position.x, position.y);
 	}
 	

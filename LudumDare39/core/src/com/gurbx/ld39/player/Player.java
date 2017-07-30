@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -37,7 +38,10 @@ public class Player implements GameInterface {
 	private final float FRICTION = 500f;
 	private float xModifier;
 	private float yModifier;
+	private boolean moving;
 	
+	
+	private boolean dead;
 	private Vector2 position;
 	private float width, height;
 	private World world;
@@ -45,6 +49,10 @@ public class Player implements GameInterface {
 	
 	private Animation currentAnimation;
 	private Animation stand, jump, run, roll;
+	private Sprite gun;
+	private Sprite head;
+	private float gunWidth, gunHeight;
+	private float headWidth, headHeight;
 	private float elapsedTime;
 	private boolean flipX;
 	private boolean rolling;
@@ -56,18 +64,21 @@ public class Player implements GameInterface {
 	private float dx;
 	
 	private PlayerProjectileHandler projectileHandler;
-	private TextureRegion projectileTex;
+	private TextureRegion projectileTex, projectileHeavyTex;
 	
 	public Player(World world, TextureAtlas generalAtlas) {
 		health = MAX_HEALTH;
 		energy = MAX_ENERGY;
 		this.world = world;
-		initAnimations(generalAtlas);
 		position = new Vector2(world.getGroundWidth()*0.5f, world.getGroundHeight() + height*0.5f);
+		initAnimations(generalAtlas);
 		flipX = false;
 		projectileTex = generalAtlas.findRegion("particle1");
+		projectileHeavyTex = generalAtlas.findRegion("particle99");
 		justHit = false;
 		energtAcc = 1;
+		dead = false;
+		moving = false;
 	}
 	
 	public void setEnemyHandler(EnemyHandler enemyHandler, PlayerProjectileHandler playerProjectileHandler) {
@@ -90,7 +101,7 @@ public class Player implements GameInterface {
 	    for (int i = 0; i < runFrames.length; i++) {
 	    	runFrames[i] = atlas.findRegion("playerRun" + (i+1));
 	    }
-	    run = new Animation(1/8f, runFrames);  
+	    run = new Animation(1/12f, runFrames);  
 	    //ROLL
 		TextureRegion[] rollFrames = new TextureRegion[7];
 	    for (int i = 0; i < rollFrames.length; i++) {
@@ -111,8 +122,20 @@ public class Player implements GameInterface {
 //		this.width = landFrames[0].getRegionWidth();
 //		this.height = landFrames[0].getRegionHeight();
 //	    land = new Animation(1/12f, landFrames);  
-	    
 	    currentAnimation = stand;
+	    
+	    //Init gun sprite
+	    TextureRegion gunTex = atlas.findRegion("playerGun");
+	    gunWidth = gunTex.getRegionWidth();
+	    gunHeight = gunTex.getRegionHeight();
+	    gun = new Sprite(gunTex);
+	    gun.setPosition(position.x - gunWidth*0.5f, position.y -gunHeight*0.5f);
+	    //Init head
+	    TextureRegion headTex = atlas.findRegion("playerHead");
+	    headWidth = headTex.getRegionWidth();
+	    headHeight = headTex.getRegionHeight() + 2;
+	    head = new Sprite(headTex);
+	    head.setPosition(position.x - headWidth*0.5f, position.y -headHeight*0.5f);
 	}
 
 	@Override
@@ -123,6 +146,11 @@ public class Player implements GameInterface {
 		handleGravity(delta);
 		handleAnimations();
 		handleAttack(delta);
+		//If out of bounds
+		if (position.y <= -600) {
+			dead = true;
+			health = 0;
+		}
 	}
 
 	private void handleEnergy(float delta) {
@@ -136,22 +164,38 @@ public class Player implements GameInterface {
 	}
 
 	private void handleAttack(float delta) {
-		if (Gdx.input.isKeyJustPressed(Keys.D)) {
-			ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
-			enemyHandler.attack(position.x, position.y, 32, 1, 400);
-		}
-		
-		if (Gdx.input.isKeyJustPressed(Keys.S)) {
-			if (!useEnergy(5)) return;
-			
-			float modifier = 5;
-			if (flipX) modifier = -5;
-			projectileHandler.addProjectile(new FriendlyProjectile(position.x + modifier, position.y, position.x + modifier*2,  position.y, 
-					700, projectileTex, enemyHandler.getEnemies(), 1, 200, ProjectileType.PLAYER_ATTACK));
-			ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x + modifier, position.y);
-		}
-		
-		
+//		if (Gdx.input.isKeyJustPressed(Keys.D)) {
+//			ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
+//			enemyHandler.attack(position.x, position.y, 32, 1, 400);
+//		}
+//		
+//		if (Gdx.input.isKeyJustPressed(Keys.S)) {
+//			if (!useEnergy(3)) return;
+//			
+//			float modifier = 5;
+//			if (flipX) modifier = -5;
+//			projectileHandler.addProjectile(new FriendlyProjectile(position.x + modifier, position.y, position.x + modifier*2,  position.y, 
+//					700, projectileTex, enemyHandler.getEnemies(), 3, 200, ProjectileType.PLAYER_ATTACK));
+//			ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x + modifier, position.y);
+//		}
+	}
+	
+	public void shoot(float mouseX, float mouseY) {
+		if (!useEnergy(3)) return;
+		float modifier = 5;
+		if (flipX) modifier = -5;
+		projectileHandler.addProjectile(new FriendlyProjectile(position.x + modifier, position.y, mouseX,  mouseY, 
+				700, projectileTex, enemyHandler.getEnemies(), 3, 200, ProjectileType.PLAYER_ATTACK));
+		ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x + modifier, position.y);
+	}
+	
+	public void shootHeavy(float mouseX, float mouseY) {
+		if (!useEnergy(10)) return;
+		float modifier = 5;
+		if (flipX) modifier = -5;
+		projectileHandler.addProjectile(new FriendlyProjectile(position.x + modifier, position.y, mouseX,  mouseY, 
+				300, projectileHeavyTex, enemyHandler.getEnemies(), 6, 500, ProjectileType.PLAYER_ATTACK));
+		ParticleEffectHandler.addParticleEffect(ParticleEffectType.SPAWN, position.x + modifier, position.y);
 	}
 
 	private boolean useEnergy(int enrg) {
@@ -162,6 +206,9 @@ public class Player implements GameInterface {
 	}
 
 	private void handleAnimations() {
+	    gun.setPosition(position.x - gunWidth*0.5f, position.y -gunHeight*0.5f);
+	    head.setPosition(position.x - headWidth*0.5f, position.y -headHeight*0.5f);
+	    
 		if (!world.isStoppedByGround(position.x, position.y, width, height)) {
 			currentAnimation = jump;
 		} else {
@@ -185,7 +232,7 @@ public class Player implements GameInterface {
 			position.y = world.getGroundHeight() + height*0.5f;
 			dx = 0;
 			//JUMP
-			if (Gdx.input.isKeyPressed(Keys.UP)) {
+			if (Gdx.input.isKeyPressed(Keys.SPACE)) {
 				yModifier = - 400f;
 				jumping = true;
 			}
@@ -205,14 +252,14 @@ public class Player implements GameInterface {
 		rollingTimer-=delta;
 		if (rollingTimer <= 0) rolling = false;
 		
-		boolean moving = false;
-		if (Gdx.input.isKeyPressed(Keys.LEFT)  && !justHit) {
+		moving = false;
+		if (Gdx.input.isKeyPressed(Keys.A)  && !justHit) {
 			moving = true;
 			flipX = true;
 			if (!rolling) xModifier -= delta * ACCELERATION;
 			if (xModifier < -MAX_SPEED && !rolling) xModifier = -MAX_SPEED;
 		}
-		if (Gdx.input.isKeyPressed(Keys.RIGHT) && !justHit) {
+		if (Gdx.input.isKeyPressed(Keys.D) && !justHit) {
 			moving = true;
 			flipX = false;
 			if (!rolling) xModifier += delta * ACCELERATION;
@@ -224,10 +271,12 @@ public class Player implements GameInterface {
 		if (xModifier > 0 && !jumping) {
 			xModifier -= DEACCELERATION * delta;
 			if (rolling) xModifier -= DEACCELERATION * delta;
+			moving = true;
 		}
 		if (xModifier < 0  && !jumping) {
 			xModifier += DEACCELERATION * delta;
 			if (rolling) xModifier += DEACCELERATION * delta;
+			moving = true;
 		}
 		if (xModifier < 1f && xModifier > -1f) {
 			xModifier = 0;
@@ -235,7 +284,7 @@ public class Player implements GameInterface {
 		}
 		
 		//Roll
-		if (Gdx.input.isKeyJustPressed(Keys.DOWN)  && !justHit) {
+		if (Gdx.input.isKeyJustPressed(Keys.S)  && !justHit) {
 			if (rolling) return;
 			elapsedTime = 0;
 			rolling = true;
@@ -257,6 +306,22 @@ public class Player implements GameInterface {
 		}
 		
 	}
+	
+	public void setGunRotation(float rotation) {
+		gun.setRotation(rotation);
+		
+		if (Math.abs(rotation) > 90) {
+			gun.setFlip(true, false);
+			head.setFlip(true, false);
+			gun.setRotation(rotation-180);
+			flipX = true;
+		} else {
+			flipX = false;
+			gun.setFlip(false, false);
+			head.setFlip(false, false);
+//			gun.setRotation(rotation);
+		}
+	}
 
 	@Override
 	public void render(SpriteBatch batch) {
@@ -270,6 +335,8 @@ public class Player implements GameInterface {
 		
 		batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), position.x - animationWidth*0.5f, position.y-height*0.5f,
 				animationWidth, height);
+		gun.draw(batch);
+		if (moving) head.draw(batch);
 	}
 
 	@Override
@@ -302,6 +369,10 @@ public class Player implements GameInterface {
 		ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD1, position.x, position.y);
 		if (!jumping) ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD_GROUND, position.x, position.y-height*0.5f);
 		health -= damage;
+		if (health <= 0) {
+			dead = true;
+			health = 0;
+		}
 		
 		//Handle impact
 		float radians = (float) Math.atan2(position.y - y, position.x - x);
@@ -313,6 +384,10 @@ public class Player implements GameInterface {
 		yModifier = - impact;
 		position.y += 1f;
 		
+	}
+	
+	public boolean isDead() {
+		return dead;
 	}
 
 

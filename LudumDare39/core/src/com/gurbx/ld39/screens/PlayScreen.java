@@ -10,6 +10,7 @@ import com.gurbx.ld39.enemies.EnemyHandler;
 import com.gurbx.ld39.player.Player;
 import com.gurbx.ld39.player.PlayerProjectileHandler;
 import com.gurbx.ld39.ui.UI;
+import com.gurbx.ld39.utils.Constants;
 import com.gurbx.ld39.utils.Input;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld39.utils.sound.SoundHandler;
@@ -43,7 +44,7 @@ public class PlayScreen extends GameScreen {
 		world = new World(app, generalAtlas);
 		player = new Player(world, generalAtlas);
 		app.camera.position.set(player.getPosition(), 0);
-		input = new Input(player);
+		input = new Input(player, app);
 		enemyHandler = new EnemyHandler(generalAtlas, world, player);
 		playerProjectileHandler = new PlayerProjectileHandler(enemyHandler.getEnemies());
 		player.setEnemyHandler(enemyHandler, playerProjectileHandler);
@@ -57,7 +58,9 @@ public class PlayScreen extends GameScreen {
 		timeModifier = timeWarp.getTimeModifer();
 		ui.setTimeModifier(timeModifier);
 //		sound.update(delta);
+		input.update(delta);
 		player.update(delta);
+		if (player.isDead()) app.setScreen(app.gameOverScreen);
 		playerProjectileHandler.update(delta * timeModifier);
 		world.update(delta*timeModifier);
 		handleCamera(delta);
@@ -65,7 +68,7 @@ public class PlayScreen extends GameScreen {
 		ui.update(delta);
 		
 		
-		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+		if (Gdx.input.isKeyJustPressed(Keys.E)) {
 			timeWarp.warpTime(5.5f, 1f, 1f, 0.1f);
 		}
 	}
@@ -75,6 +78,8 @@ public class PlayScreen extends GameScreen {
 		Vector3 position = app.camera.position;
 		position.x += (player.getPosition().x  - position.x) * lerp * delta;
 		position.y += (player.getPosition().y + 30  - position.y) * lerp * delta;
+		
+		if (position.y < 0 + Constants.VIRTUAL_HEIGHT*0.5f) position.y = Constants.VIRTUAL_HEIGHT*0.5f;
 		
 		app.camera.update();
 	}

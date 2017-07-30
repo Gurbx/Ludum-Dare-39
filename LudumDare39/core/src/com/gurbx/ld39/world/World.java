@@ -62,6 +62,11 @@ public class World implements GameInterface {
 		countdownTimer -= delta;
 		powerGeneratorLeft.update(delta);
 		powerGeneratorRight.update(delta);
+		
+		//Game over if generators die
+		if (powerGeneratorLeft.getHealth() <= 0 || powerGeneratorRight.getHealth() <= 0) {
+			app.setScreen(app.gameOverScreen);
+		}
 
 		
 	}

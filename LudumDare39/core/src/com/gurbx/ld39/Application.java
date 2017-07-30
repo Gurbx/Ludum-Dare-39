@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.gurbx.ld39.screens.GameOverScreen;
 import com.gurbx.ld39.screens.LoadingScreen;
 import com.gurbx.ld39.screens.PlayScreen;
 import com.gurbx.ld39.utils.Constants;
@@ -22,6 +23,7 @@ public class Application extends Game {
 	//Screens
 	public LoadingScreen loadingScreen;
 	public PlayScreen playScreen;
+	public GameOverScreen gameOverScreen;
 	
 	public BitmapFont font1;
 	
@@ -52,6 +54,7 @@ public class Application extends Game {
 	private void initScreens() {
 		loadingScreen = new LoadingScreen(this);
 		playScreen = new PlayScreen(this);
+		gameOverScreen = new GameOverScreen(this);
 		setScreen(loadingScreen);
 	}
 
@@ -78,5 +81,6 @@ public class Application extends Game {
 		playScreen.dispose();
 		shapeRenderer.dispose();
 		font1.dispose();
+		gameOverScreen.dispose();
 	}
 }

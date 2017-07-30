@@ -1,10 +1,11 @@
 package com.gurbx.ld39.utils.particles;
 
 public enum ParticleEffectType {
-	BLOOD1("img/blood1.p", 10, false),
+	BLOOD1("img/blood1.p", 40, false),
 	BLOOD_GROUND("img/bloodGround.p", 100, true),
-	CLOUD("img/cloud.p", 100, false),
-	HIT("img/hi1t.p", 10, false);
+	CLOUD("img/cloud.p", 20, false),
+	SPAWN("img/spawn.p", 20, false),
+	HIT("img/hi1t.p", 40, false);
 	
 	private String path;
 	private int poolSIze;
