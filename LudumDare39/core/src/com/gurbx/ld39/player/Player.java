@@ -24,7 +24,7 @@ import com.gurbx.ld39.world.World;
 
 public class Player implements GameInterface {
 	private float health;
-	private final int MAX_HEALTH = 100;
+	private final int MAX_HEALTH = 20;
 	private float energy;
 	private final int MAX_ENERGY = 100;
 	private final float ENERGY_REGEN = 20f;
@@ -33,6 +33,7 @@ public class Player implements GameInterface {
 	private final float ENERGY_TIMER_TIME = 0.6f;
 	private float energyTimer;
 	
+	private int timePower;
 	
 	private final float MAX_SPEED = 5f;
 	private final float ACCELERATION = 100f;
@@ -81,6 +82,7 @@ public class Player implements GameInterface {
 		energtAcc = 1;
 		dead = false;
 		moving = false;
+		timePower = 0;
 	}
 	
 	public void setEnemyHandler(EnemyHandler enemyHandler, PlayerProjectileHandler playerProjectileHandler) {
@@ -398,6 +400,19 @@ public class Player implements GameInterface {
 	
 	public boolean isDead() {
 		return dead;
+	}
+
+	public void addPower() {
+		timePower ++;
+	}
+	
+	public int getTimePower() {
+		return timePower;
+	}
+
+	public void timeWarpUsed() {
+		timePower--;
+		
 	}
 
 

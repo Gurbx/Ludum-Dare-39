@@ -5,6 +5,7 @@ public enum Sounds {
 	JUMP ("sound/jump.wav", 1f),
 	ROLL ("sound/Roll.wav", 1f),
 	EXPLOSION1 ("sound/explosion1.wav", 0.6f),
+	SELECT ("sound/select.wav", 1f),
 	HIT ("sound/hit1.wav", 1f),
 	HIT2 ("sound/hit2.wav", 1f);
 	

@@ -3,6 +3,7 @@ package com.gurbx.ld39.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -17,11 +18,13 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 public class IntroScreen extends GameScreen {
 	private TextureAtlas atlas;
 	private Stage stage;
-	private Label introText, introText2;
-	private float a = 0.3f;
+	private Label introText, introText2, introText3;
+	private float a;
 	
-	private float timer = 6;
-	private boolean text1;
+	private float timer;
+	private boolean text1, text2;
+	
+	private Sprite bg;
 
 	public IntroScreen(Application app) {
 		super(app);
@@ -31,35 +34,53 @@ public class IntroScreen extends GameScreen {
 	public void show() {
 		stage = new Stage(app.uiViewport);
 		atlas = app.assets.get("img/generalPack.atlas", TextureAtlas.class);
-		LabelStyle style = new LabelStyle(app.font1, Color.WHITE);
+		LabelStyle style = new LabelStyle(app.font2, Color.WHITE);
 		introText = new Label("YOUR VILLAGE IS UNDER ATTACK!", style);
 		introText.setPosition(Constants.UI_VIRTUAL_WIDTH*0.5f - introText.getWidth()*0.5f, Constants.UI_VIRTUAL_HEIGHT*0.5f + 20);
 		introText.addAction(sequence(alpha(0), parallel(fadeIn(0.5f), moveBy(0, -20, 0.5f, Interpolation.pow2))));
 		
-		introText2 = new Label("DON'T LET THEM DESTROY YOUR POWER GENERATORS", style);
+		introText2 = new Label("POWER HUNGRY UNDEAD ARE AFTER YOUR CITY'S POWER GENERATORS", style);
 		introText2.setPosition(Constants.UI_VIRTUAL_WIDTH*0.5f - introText2.getWidth()*0.5f, Constants.UI_VIRTUAL_HEIGHT*0.5f + 20);
 		introText2.addAction(sequence(alpha(0)));
 		
+		introText3 = new Label("YOU'RE THE ONLY ONE STANDING IN THEIR WAY", style);
+		introText3.setPosition(Constants.UI_VIRTUAL_WIDTH*0.5f - introText3.getWidth()*0.5f, Constants.UI_VIRTUAL_HEIGHT*0.5f + 20);
+		introText3.addAction(sequence(alpha(0)));
+		
 		stage.addActor(introText);
 		stage.addActor(introText2);
+		stage.addActor(introText3);
 //		initButtons();
 		
+		bg = new Sprite(atlas.findRegion("bg"));
+		bg.setPosition(0, 0);
+		
 		text1 = false;
+		text2 = false;
 		Gdx.input.setInputProcessor(stage);
+		
+		timer = 12;
+		a = 1;
 		
 	}
 	
 	private void update(float delta) {
 		stage.act();
 		timer -= delta;
-		if (timer < 3 && text1 == false) {
+		if (timer < 9 && text1 == false) {
 			text1 = true;
 			introText.addAction(parallel(fadeOut(0.5f), moveBy(0, -20, 0.5f, Interpolation.pow2)));
 			introText2.addAction(sequence(alpha(0), parallel(fadeIn(0.5f), moveBy(0, -20, 0.5f, Interpolation.pow2))));
 		}
-		if (timer <= 0.3f) {
-			a -= delta;
+		
+		if (timer < 5 && text2 == false) {
+			text2 = true;
 			introText2.addAction(parallel(fadeOut(0.5f), moveBy(0, -20, 0.5f, Interpolation.pow2)));
+			introText3.addAction(sequence(alpha(0), parallel(fadeIn(0.5f), moveBy(0, -20, 0.5f, Interpolation.pow2))));
+		}
+		if (timer <= 1) {
+			a -= delta;
+			introText3.addAction(parallel(fadeOut(0.5f), moveBy(0, -20, 0.5f, Interpolation.pow2)));
 		}
 		
 		if (timer <= 0) {
@@ -71,13 +92,14 @@ public class IntroScreen extends GameScreen {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(a, a, a, 1);
+		Gdx.gl.glClearColor(1-a, 1-a, 1-a, 1-a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		stage.draw();
 		
 		app.batch.setProjectionMatrix(app.uiCamera.combined);
 		app.batch.begin();
+//		bg.draw(app.batch);
 		app.batch.end();
 		
 	}

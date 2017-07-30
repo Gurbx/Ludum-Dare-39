@@ -1,9 +1,13 @@
 package com.gurbx.ld39.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -12,11 +16,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.gurbx.ld39.Application;
 import com.gurbx.ld39.utils.Constants;
+import com.gurbx.ld39.utils.sound.SoundHandler;
+import com.gurbx.ld39.utils.sound.Sounds;
 
 public class MenuScreen extends GameScreen {
 	private TextureAtlas atlas;
 	private Stage stage;
 	private TextButton playButton;
+	private SoundHandler sound;
+	
+	private TiledMap tiledMap;
+    private TiledMapRenderer tiledMapRenderer;
+ 
 
 	public MenuScreen(Application app) {
 		super(app);
@@ -30,6 +41,11 @@ public class MenuScreen extends GameScreen {
 		LabelStyle style = new LabelStyle(app.font1, Color.WHITE);
 		initButtons();
 		Gdx.input.setInputProcessor(stage);
+		sound = new SoundHandler(app);
+		
+		//MAP
+    	tiledMap = app.assets.get("maps/uiMap.tmx", TiledMap.class);
+		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 	}
 	
 	private void initButtons() {
@@ -46,6 +62,7 @@ public class MenuScreen extends GameScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
             	app.setScreen(app.playScreen);
+            	SoundHandler.playSound(Sounds.SELECT);
             };
         });
         
@@ -61,15 +78,17 @@ public class MenuScreen extends GameScreen {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1);
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		
-		stage.draw();
+        tiledMapRenderer.setView(app.uiCamera);
+        tiledMapRenderer.render();
 		
 		app.batch.setProjectionMatrix(app.uiCamera.combined);
 		app.batch.begin();
 		app.batch.end();
+		
+		stage.draw();
 	}
 
 
@@ -99,7 +118,9 @@ public class MenuScreen extends GameScreen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		stage.dispose();
+		tiledMap.dispose();
+		sound.dispose();
 		
 	}
 

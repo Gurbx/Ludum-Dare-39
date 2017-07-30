@@ -29,6 +29,7 @@ public class LoadingScreen extends GameScreen {
 		//Load tiled map
 		app.assets.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		app.assets.load("maps/worldMap.tmx", TiledMap.class);
+		app.assets.load("maps/uiMap.tmx", TiledMap.class);
 		
 	}
 	

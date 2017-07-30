@@ -33,7 +33,7 @@ public class Application extends Game {
 	public IntroScreen introScreen;
 	public GameOverScreen gameOverScreen;
 	
-	public BitmapFont font1;
+	public BitmapFont font1, font2;
 	
 	@Override
 	public void create () {
@@ -57,7 +57,7 @@ public class Application extends Game {
 		uiCamera.update();
 		shapeRenderer = new ShapeRenderer();
 		
-		font1 = new BitmapFont();
+//		font1 = new BitmapFont();
 	}
 	
 	private void initFonts() {
@@ -68,7 +68,7 @@ public class Application extends Game {
 		parameter.borderColor = Color.DARK_GRAY;
 		font1 = generator.generateFont(parameter); 
 		parameter.size = 11;
-//		font2 = generator.generateFont(parameter);
+		font2 = generator.generateFont(parameter);
 		generator.dispose(); 
 	}
 	
@@ -104,6 +104,7 @@ public class Application extends Game {
 		playScreen.dispose();
 		shapeRenderer.dispose();
 		font1.dispose();
+		font2.dispose();
 		menuScreen.dispose();
 		introScreen.dispose();
 		gameOverScreen.dispose();

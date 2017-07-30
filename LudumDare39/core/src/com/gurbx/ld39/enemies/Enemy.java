@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.gurbx.ld39.player.Player;
 import com.gurbx.ld39.utils.GameInterface;
+import com.gurbx.ld39.utils.PowerUpHandler;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld39.utils.particles.ParticleEffectType;
 import com.gurbx.ld39.utils.sound.SoundHandler;
@@ -211,6 +212,10 @@ public class Enemy implements GameInterface {
 			ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD2, position.x, position.y);
 			SoundHandler.playSound(Sounds.HIT);
 			SoundHandler.playSound(Sounds.EXPLOSION1);
+			int timeDrop = (int) (Math.random()*15);
+			if (timeDrop <= 2) {
+				PowerUpHandler.addPowerUp(position);
+			}
 		} else {
 			ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD1, position.x, position.y);
 			SoundHandler.playSound(Sounds.HIT);

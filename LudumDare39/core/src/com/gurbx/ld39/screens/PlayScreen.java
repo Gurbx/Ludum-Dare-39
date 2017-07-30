@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.gurbx.ld39.Application;
 import com.gurbx.ld39.enemies.EnemyHandler;
@@ -13,6 +14,7 @@ import com.gurbx.ld39.player.PlayerProjectileHandler;
 import com.gurbx.ld39.ui.UI;
 import com.gurbx.ld39.utils.Constants;
 import com.gurbx.ld39.utils.Input;
+import com.gurbx.ld39.utils.PowerUpHandler;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld39.utils.sound.SoundHandler;
 import com.gurbx.ld39.utils.timewarp.TimeWarp;
@@ -28,6 +30,7 @@ public class PlayScreen extends GameScreen {
 	private EnemyHandler enemyHandler;
 	private UI ui;
 	private PlayerProjectileHandler playerProjectileHandler;
+	private PowerUpHandler powerUpHandler;
 	
 	private TimeWarp timeWarp;
 	private float timeModifier;
@@ -50,6 +53,7 @@ public class PlayScreen extends GameScreen {
 		playerProjectileHandler = new PlayerProjectileHandler(enemyHandler.getEnemies());
 		player.setEnemyHandler(enemyHandler, playerProjectileHandler);
 		ui = new UI(generalAtlas, app, player, world);
+		powerUpHandler = new PowerUpHandler(player, generalAtlas);
 		
 		Pixmap pm = new Pixmap(Gdx.files.internal("cursorImage.png"));
 		Gdx.input.setCursorImage(pm, 0, 0);
@@ -70,6 +74,7 @@ public class PlayScreen extends GameScreen {
 			app.setScreen(app.gameOverScreen);
 		}
 		playerProjectileHandler.update(delta * timeModifier);
+		powerUpHandler.update(delta);
 		world.update(delta*timeModifier);
 		handleCamera(delta);
 		enemyHandler.update(delta*timeModifier);
@@ -77,7 +82,10 @@ public class PlayScreen extends GameScreen {
 		
 		
 		if (Gdx.input.isKeyJustPressed(Keys.E)) {
-			timeWarp.warpTime(5.5f, 1f, 1f, 0.1f);
+			if (player.getTimePower() >= 1) {
+				player.timeWarpUsed();
+				timeWarp.warpTime(5.5f, 1f, 1f, 0.1f);
+			}
 		}
 	}
 
@@ -97,6 +105,12 @@ public class PlayScreen extends GameScreen {
 		update(delta);
 		Gdx.gl.glClearColor(0.4f, 0.7f, 0.9f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		app.batch.setProjectionMatrix(app.uiCamera.combined);
+		app.batch.begin();
+		ui.renderBG(app.batch);
+		app.batch.end();
+		
 		world.renderMap();
 		
 		app.batch.setProjectionMatrix(app.camera.combined);
@@ -105,6 +119,7 @@ public class PlayScreen extends GameScreen {
 		particleHandler.renderBehindTowers(app.batch, delta * timeModifier);
 		enemyHandler.render(app.batch);
 		player.render(app.batch);
+		powerUpHandler.render(app.batch);
 		playerProjectileHandler.render(app.batch);
 		particleHandler.render(app.batch, delta*timeModifier);
 		app.batch.end();
@@ -149,6 +164,7 @@ public class PlayScreen extends GameScreen {
 		enemyHandler.dispose();
 		ui.dispose();
 		playerProjectileHandler.dispose();
+		powerUpHandler.dispose();
 		
 	}
 
