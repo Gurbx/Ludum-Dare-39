@@ -19,7 +19,7 @@ public class LoadingScreen extends GameScreen {
 	@Override
 	public void show() {
 		loadGeneralAssets();
-//		loadSounds();
+		loadSounds();
 		
 	}
 

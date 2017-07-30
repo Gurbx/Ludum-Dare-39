@@ -318,30 +318,44 @@ playerStand4
   orig: 32, 38
   offset: 0, 0
   index: -1
-zombieRun1
+zombieHit1
   rotate: false
   xy: 237, 37
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
-zombieRun2
+zombieHit2
   rotate: false
   xy: 271, 118
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
-zombieRun3
+zombieRun1
   rotate: false
   xy: 271, 78
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
-zombieRun4
+zombieRun2
   rotate: false
   xy: 271, 38
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+zombieRun3
+  rotate: false
+  xy: 305, 112
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+zombieRun4
+  rotate: false
+  xy: 305, 72
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
@@ -360,9 +374,16 @@ particle2
   orig: 8, 8
   offset: 0, 0
   index: -1
+bullet
+  rotate: false
+  xy: 348, 192
+  size: 7, 7
+  orig: 7, 7
+  offset: 0, 0
+  index: -1
 particle1
   rotate: false
-  xy: 348, 195
+  xy: 305, 152
   size: 4, 4
   orig: 4, 4
   offset: 0, 0

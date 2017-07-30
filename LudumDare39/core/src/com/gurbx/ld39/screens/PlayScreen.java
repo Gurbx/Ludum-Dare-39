@@ -20,7 +20,7 @@ import com.gurbx.ld39.world.World;
 public class PlayScreen extends GameScreen {
 	private TextureAtlas generalAtlas;
 	private ParticleEffectHandler particleHandler;
-//	private SoundHandler sound;
+	private SoundHandler sound;
 	private World world;
 	private Player player;
 	private Input input;
@@ -38,7 +38,7 @@ public class PlayScreen extends GameScreen {
 	@Override
 	public void show() {
 		timeWarp = new TimeWarp();
-//		sound = new SoundHandler(app);
+		sound = new SoundHandler(app);
 		generalAtlas = app.assets.get("img/generalPack.atlas", TextureAtlas.class);
 		particleHandler = new ParticleEffectHandler(generalAtlas);
 		world = new World(app, generalAtlas);
@@ -60,7 +60,10 @@ public class PlayScreen extends GameScreen {
 //		sound.update(delta);
 		input.update(delta);
 		player.update(delta);
-		if (player.isDead()) app.setScreen(app.gameOverScreen);
+		if (player.isDead()) {
+			sound.muteSounds();
+			app.setScreen(app.gameOverScreen);
+		}
 		playerProjectileHandler.update(delta * timeModifier);
 		world.update(delta*timeModifier);
 		handleCamera(delta);
@@ -134,7 +137,7 @@ public class PlayScreen extends GameScreen {
 	@Override
 	public void dispose() {
 		particleHandler.dispose();
-//		sound.dispose();
+		sound.dispose();
 		generalAtlas.dispose();
 		world.dispose();
 		player.dispose();

@@ -10,6 +10,8 @@ import com.gurbx.ld39.player.Player;
 import com.gurbx.ld39.utils.GameInterface;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld39.utils.particles.ParticleEffectType;
+import com.gurbx.ld39.utils.sound.SoundHandler;
+import com.gurbx.ld39.utils.sound.Sounds;
 import com.gurbx.ld39.world.PowerGenerator;
 import com.gurbx.ld39.world.World;
 
@@ -29,7 +31,7 @@ public class Enemy implements GameInterface {
 	
 	private float yModifier;
 	private float elapsedTime;
-	private Animation run, stand;
+	private Animation run, stand, hit;
 	private Animation currentAnimation;
 	private float width, height;
 	private boolean flipX;
@@ -64,7 +66,13 @@ public class Enemy implements GameInterface {
 	    for (int i = 0; i < runFrames.length; i++) {
 	    	runFrames[i] = atlas.findRegion("zombieRun" + (i+1));
 	    }
-	    run = new Animation(1/12f, runFrames);  
+	    run = new Animation(1/8f, runFrames);
+	    
+		TextureRegion[] hitFrames = new TextureRegion[2];
+	    for (int i = 0; i < hitFrames.length; i++) {
+	    	hitFrames[i] = atlas.findRegion("zombieHit" + (i+1));
+	    }
+	    hit = new Animation(1/6f, hitFrames);  
 	    
 	    currentAnimation = run;
 		
@@ -76,11 +84,22 @@ public class Enemy implements GameInterface {
 		elapsedTime += delta;
 		handleMovement(delta);
 		handleGravity(delta);
+		handleAnimations(delta);
 		//Falling down
 		if (position.y <= 0) shouldRemove = true;
 		
 	}
 	
+	private void handleAnimations(float delta) {
+		if (jumping) {
+			currentAnimation = hit;
+		} else {
+			currentAnimation = run;
+		}
+		
+	}
+
+
 	private void handleMovement(float delta) {
 		position.x += dx * delta;
 		if (jumping) return;
@@ -187,8 +206,15 @@ public class Enemy implements GameInterface {
 
 	public void damage(int damage, float impact, float x, float y) {
 		health -= damage;
-		if (health < 0) shouldRemove = true;
-		ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD1, position.x, position.y);
+		if (health < 0) {
+			shouldRemove = true;
+			ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD2, position.x, position.y);
+			SoundHandler.playSound(Sounds.HIT);
+			SoundHandler.playSound(Sounds.EXPLOSION1);
+		} else {
+			ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD1, position.x, position.y);
+			SoundHandler.playSound(Sounds.HIT);
+		}
 		if (!jumping) ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD_GROUND, position.x, position.y-height*0.5f);
 		
 		//Handle impact

@@ -18,6 +18,8 @@ import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld39.utils.particles.ParticleEffectType;
 import com.gurbx.ld39.utils.projectile.FriendlyProjectile;
 import com.gurbx.ld39.utils.projectile.ProjectileType;
+import com.gurbx.ld39.utils.sound.SoundHandler;
+import com.gurbx.ld39.utils.sound.Sounds;
 import com.gurbx.ld39.world.World;
 
 public class Player implements GameInterface {
@@ -73,7 +75,7 @@ public class Player implements GameInterface {
 		position = new Vector2(world.getGroundWidth()*0.5f, world.getGroundHeight() + height*0.5f);
 		initAnimations(generalAtlas);
 		flipX = false;
-		projectileTex = generalAtlas.findRegion("particle1");
+		projectileTex = generalAtlas.findRegion("bullet");
 		projectileHeavyTex = generalAtlas.findRegion("particle99");
 		justHit = false;
 		energtAcc = 1;
@@ -180,14 +182,15 @@ public class Player implements GameInterface {
 //		}
 	}
 	
-	public void shoot(float mouseX, float mouseY) {
+	public void shoot(float mouseX, float mouseY, float dx, float dy) {
 		if (rolling) return;
 		if (!useEnergy(3)) return;
 		float modifier = 5;
 		if (flipX) modifier = -5;
-		projectileHandler.addProjectile(new FriendlyProjectile(position.x + modifier, position.y, mouseX,  mouseY, 
+		projectileHandler.addProjectile(new FriendlyProjectile(position.x + dx, position.y + dy, mouseX,  mouseY, 
 				700, projectileTex, enemyHandler.getEnemies(), 3, 200, ProjectileType.PLAYER_ATTACK));
-		ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x + modifier, position.y);
+		ParticleEffectHandler.addParticleEffect(ParticleEffectType.FLARE, position.x + dx, position.y + dy);
+		SoundHandler.playSound(Sounds.LASER);
 	}
 	
 	public void shootHeavy(float mouseX, float mouseY) {
@@ -236,6 +239,7 @@ public class Player implements GameInterface {
 			//JUMP
 			if (Gdx.input.isKeyPressed(Keys.SPACE)) {
 				if (rolling) return;
+				SoundHandler.playSound(Sounds.JUMP);
 				yModifier = - 400f;
 				jumping = true;
 			}
@@ -291,6 +295,7 @@ public class Player implements GameInterface {
 			if (rolling) return;
 			elapsedTime = 0;
 			rolling = true;
+			SoundHandler.playSound(Sounds.ROLL);
 			ParticleEffectHandler.addParticleEffect(ParticleEffectType.CLOUD, position.x, position.y);
 			rollingTimer = ROLL_TIME;
 			
@@ -369,6 +374,7 @@ public class Player implements GameInterface {
 
 	public void damage(float damage, float impact, float x, float y) {
 		if (rolling) return;
+		SoundHandler.playSound(Sounds.HIT2);
 		ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD1, position.x, position.y);
 		if (!jumping) ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD_GROUND, position.x, position.y-height*0.5f);
 		health -= damage;

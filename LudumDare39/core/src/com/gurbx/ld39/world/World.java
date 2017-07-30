@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.gurbx.ld39.Application;
 import com.gurbx.ld39.utils.GameInterface;
+import com.gurbx.ld39.utils.sound.SoundHandler;
 
 public class World implements GameInterface {
 	private final float COUNTDOWN_TIME = 120;
@@ -65,6 +66,7 @@ public class World implements GameInterface {
 		
 		//Game over if generators die
 		if (powerGeneratorLeft.getHealth() <= 0 || powerGeneratorRight.getHealth() <= 0) {
+			SoundHandler.muteSounds();
 			app.setScreen(app.gameOverScreen);
 		}
 
