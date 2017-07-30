@@ -3,6 +3,7 @@ package com.gurbx.ld39.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector3;
 import com.gurbx.ld39.Application;
@@ -49,6 +50,10 @@ public class PlayScreen extends GameScreen {
 		playerProjectileHandler = new PlayerProjectileHandler(enemyHandler.getEnemies());
 		player.setEnemyHandler(enemyHandler, playerProjectileHandler);
 		ui = new UI(generalAtlas, app, player, world);
+		
+		Pixmap pm = new Pixmap(Gdx.files.internal("cursorImage.png"));
+		Gdx.input.setCursorImage(pm, 0, 0);
+		pm.dispose();
 		
 		Gdx.input.setInputProcessor(input);
 	}

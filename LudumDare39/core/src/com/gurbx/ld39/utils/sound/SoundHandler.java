@@ -19,7 +19,7 @@ public class SoundHandler {
 		//Music
 		music = Gdx.audio.newMusic(Gdx.files.internal("sound/musik.wav"));
 		music.setLooping(true);
-		music.play();
+//		music.play();
 		
 		//Sounds
 		sounds = new HashMap<Sounds, Sound>();

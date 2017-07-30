@@ -64,7 +64,9 @@ public class Input implements InputProcessor {
 			player.shoot(getMousePosInGameWorld().x, getMousePosInGameWorld().y, dx, dy);
 		}
 		if (button == 1) {
-			player.shootHeavy(getMousePosInGameWorld().x, getMousePosInGameWorld().y);
+			float dx = MathUtils.cos(radians) * 25;
+			float dy = MathUtils.sin(radians) * 25;
+			player.shootHeavy(getMousePosInGameWorld().x, getMousePosInGameWorld().y, dx, dy);
 		}
 		return false;
 	}

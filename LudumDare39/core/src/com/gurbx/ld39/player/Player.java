@@ -30,7 +30,7 @@ public class Player implements GameInterface {
 	private final float ENERGY_REGEN = 20f;
 	private final float ENERGT_REG_ACC = 1f;
 	private float energtAcc;
-	private final float ENERGY_TIMER_TIME = 1f;
+	private final float ENERGY_TIMER_TIME = 0.6f;
 	private float energyTimer;
 	
 	
@@ -76,7 +76,7 @@ public class Player implements GameInterface {
 		initAnimations(generalAtlas);
 		flipX = false;
 		projectileTex = generalAtlas.findRegion("bullet");
-		projectileHeavyTex = generalAtlas.findRegion("particle99");
+		projectileHeavyTex = generalAtlas.findRegion("bulletBig");
 		justHit = false;
 		energtAcc = 1;
 		dead = false;
@@ -184,23 +184,24 @@ public class Player implements GameInterface {
 	
 	public void shoot(float mouseX, float mouseY, float dx, float dy) {
 		if (rolling) return;
-		if (!useEnergy(3)) return;
+		if (!useEnergy(2)) return;
 		float modifier = 5;
 		if (flipX) modifier = -5;
 		projectileHandler.addProjectile(new FriendlyProjectile(position.x + dx, position.y + dy, mouseX,  mouseY, 
-				700, projectileTex, enemyHandler.getEnemies(), 3, 200, ProjectileType.PLAYER_ATTACK));
+				700, projectileTex, enemyHandler.getEnemies(), 2, 200, ProjectileType.PLAYER_ATTACK));
 		ParticleEffectHandler.addParticleEffect(ParticleEffectType.FLARE, position.x + dx, position.y + dy);
 		SoundHandler.playSound(Sounds.LASER);
 	}
 	
-	public void shootHeavy(float mouseX, float mouseY) {
+	public void shootHeavy(float mouseX, float mouseY, float dx, float dy) {
 		if (rolling) return;
 		if (!useEnergy(10)) return;
 		float modifier = 5;
 		if (flipX) modifier = -5;
-		projectileHandler.addProjectile(new FriendlyProjectile(position.x + modifier, position.y, mouseX,  mouseY, 
-				300, projectileHeavyTex, enemyHandler.getEnemies(), 6, 500, ProjectileType.PLAYER_ATTACK));
-		ParticleEffectHandler.addParticleEffect(ParticleEffectType.SPAWN, position.x + modifier, position.y);
+		projectileHandler.addProjectile(new FriendlyProjectile(position.x + dx, position.y + dy, mouseX,  mouseY, 
+				500, projectileHeavyTex, enemyHandler.getEnemies(), 6, 500, ProjectileType.PLAYER_ATTACK));
+		ParticleEffectHandler.addParticleEffect(ParticleEffectType.FLARE, position.x + dx, position.y + dy);
+		SoundHandler.playSound(Sounds.LASER);
 	}
 
 	private boolean useEnergy(int enrg) {

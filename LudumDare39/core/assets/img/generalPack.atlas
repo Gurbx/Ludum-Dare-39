@@ -13,358 +13,400 @@ timeWarp
 powerGenerator
   rotate: false
   xy: 1, 143
-  size: 96, 96
-  orig: 96, 96
+  size: 100, 96
+  orig: 100, 96
+  offset: 0, 0
+  index: -1
+powerGeneratorDamaged1
+  rotate: false
+  xy: 483, 415
+  size: 100, 96
+  orig: 100, 96
+  offset: 0, 0
+  index: -1
+powerGeneratorDamaged2
+  rotate: false
+  xy: 1, 45
+  size: 100, 96
+  orig: 100, 96
+  offset: 0, 0
+  index: -1
+powerGeneratorDamaged3
+  rotate: false
+  xy: 103, 143
+  size: 100, 96
+  orig: 100, 96
   offset: 0, 0
   index: -1
 button
   rotate: false
-  xy: 99, 207
+  xy: 483, 381
   size: 98, 32
   orig: 98, 32
   offset: 0, 0
   index: -1
 buttonHover
   rotate: false
-  xy: 99, 173
+  xy: 585, 479
   size: 98, 32
   orig: 98, 32
   offset: 0, 0
   index: -1
 buttonPressed
   rotate: false
-  xy: 199, 207
+  xy: 1, 11
   size: 98, 32
   orig: 98, 32
   offset: 0, 0
   index: -1
 particle5
   rotate: false
-  xy: 1, 77
+  xy: 103, 77
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 particleBlur
   rotate: false
-  xy: 1, 11
+  xy: 205, 175
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
+bar
+  rotate: false
+  xy: 685, 497
+  size: 100, 14
+  orig: 100, 14
+  offset: 0, 0
+  index: -1
 playerGun
   rotate: false
-  xy: 199, 157
+  xy: 483, 331
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 particleShadow
   rotate: false
-  xy: 249, 158
+  xy: 585, 430
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 particleSmooth
   rotate: false
-  xy: 299, 192
+  xy: 271, 192
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
-bar
-  rotate: false
-  xy: 99, 157
-  size: 57, 14
-  orig: 57, 14
-  offset: 0, 0
-  index: -1
 playerHead
   rotate: false
-  xy: 348, 201
+  xy: 169, 103
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerJump1
   rotate: false
-  xy: 382, 201
+  xy: 483, 291
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerJump2
   rotate: false
-  xy: 416, 201
+  xy: 533, 341
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerLand1
   rotate: false
-  xy: 450, 201
+  xy: 634, 439
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerLand3
   rotate: false
-  xy: 450, 201
+  xy: 634, 439
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerLand2
   rotate: false
-  xy: 67, 103
+  xy: 320, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRoll1
   rotate: false
-  xy: 67, 63
+  xy: 483, 251
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRoll2
   rotate: false
-  xy: 67, 23
+  xy: 354, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
-particle4
-  rotate: false
-  xy: 298, 158
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
 playerRoll3
   rotate: false
-  xy: 101, 117
+  xy: 388, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRoll4
   rotate: false
-  xy: 101, 77
+  xy: 422, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRoll5
   rotate: false
-  xy: 101, 37
+  xy: 456, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
+particle4
+  rotate: false
+  xy: 103, 43
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 playerRoll6
   rotate: false
-  xy: 135, 117
+  xy: 205, 135
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRoll7
   rotate: false
-  xy: 135, 77
+  xy: 239, 135
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun1
   rotate: false
-  xy: 135, 37
+  xy: 137, 37
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
-particle99
-  rotate: false
-  xy: 483, 486
-  size: 26, 25
-  orig: 26, 25
-  offset: 0, 0
-  index: -1
 playerRun2
   rotate: false
-  xy: 332, 152
+  xy: 203, 95
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun3
   rotate: false
-  xy: 366, 161
+  xy: 237, 95
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun4
   rotate: false
-  xy: 400, 161
-  size: 32, 38
-  orig: 32, 38
-  offset: 0, 0
-  index: -1
-playerRun5
-  rotate: false
-  xy: 434, 161
-  size: 32, 38
-  orig: 32, 38
-  offset: 0, 0
-  index: -1
-playerRun6
-  rotate: false
-  xy: 468, 161
+  xy: 101, 3
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 swipe1
   rotate: false
-  xy: 101, 3
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-swipe2
-  rotate: false
   xy: 135, 3
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-heart
+playerRun5
   rotate: false
-  xy: 158, 157
-  size: 16, 14
-  orig: 16, 14
+  xy: 668, 439
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerRun6
+  rotate: false
+  xy: 490, 211
+  size: 32, 38
+  orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun7
   rotate: false
-  xy: 169, 117
+  xy: 273, 152
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun8
   rotate: false
-  xy: 169, 77
+  xy: 567, 341
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerSlide1
   rotate: false
-  xy: 203, 117
+  xy: 702, 457
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerSlide2
   rotate: false
-  xy: 169, 37
+  xy: 736, 457
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerStand1
   rotate: false
-  xy: 203, 77
+  xy: 770, 457
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerStand2
   rotate: false
-  xy: 203, 37
+  xy: 804, 473
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
-swipe3
-  rotate: false
-  xy: 169, 3
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-swipe4
-  rotate: false
-  xy: 203, 3
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
 playerStand3
   rotate: false
-  xy: 237, 117
+  xy: 838, 473
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerStand4
   rotate: false
-  xy: 237, 77
+  xy: 872, 473
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 zombieHit1
   rotate: false
-  xy: 237, 37
+  xy: 906, 473
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 zombieHit2
   rotate: false
-  xy: 271, 118
+  xy: 940, 473
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 zombieRun1
   rotate: false
-  xy: 271, 78
+  xy: 974, 473
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 zombieRun2
   rotate: false
-  xy: 271, 38
+  xy: 517, 291
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 zombieRun3
   rotate: false
-  xy: 305, 112
+  xy: 517, 251
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 zombieRun4
   rotate: false
-  xy: 305, 72
+  xy: 524, 211
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
-particle3
+swipe2
   rotate: false
-  xy: 483, 468
+  xy: 551, 307
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+swipe3
+  rotate: false
+  xy: 551, 273
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+swipe4
+  rotate: false
+  xy: 583, 381
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+particle99
+  rotate: false
+  xy: 702, 430
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
+bulletBig
+  rotate: false
+  xy: 169, 85
   size: 16, 16
   orig: 16, 16
+  offset: 0, 0
+  index: -1
+cursorImage
+  rotate: false
+  xy: 551, 255
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+particle3
+  rotate: false
+  xy: 730, 439
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+powerIcon
+  rotate: false
+  xy: 748, 439
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+heart
+  rotate: false
+  xy: 273, 136
+  size: 16, 14
+  orig: 16, 14
   offset: 0, 0
   index: -1
 particle2
@@ -376,14 +418,14 @@ particle2
   index: -1
 bullet
   rotate: false
-  xy: 348, 192
+  xy: 320, 192
   size: 7, 7
   orig: 7, 7
   offset: 0, 0
   index: -1
 particle1
   rotate: false
-  xy: 305, 152
+  xy: 483, 245
   size: 4, 4
   orig: 4, 4
   offset: 0, 0

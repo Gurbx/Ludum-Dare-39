@@ -7,6 +7,7 @@ public enum ParticleEffectType {
 	CLOUD("img/cloud.p", 20, false),
 	FLARE("img/flare.p", 20, false),
 	SPAWN("img/spawn.p", 20, false),
+	FIRE("img/fire.p", 20, false),
 	HIT("img/hi1t.p", 40, false);
 	
 	private String path;

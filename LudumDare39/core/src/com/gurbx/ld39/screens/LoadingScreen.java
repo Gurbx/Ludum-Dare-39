@@ -42,16 +42,18 @@ public class LoadingScreen extends GameScreen {
 	private void update(float delta) {
 		app.assets.update();
 		if (app.assets.getProgress() >= 1) {
-			app.setScreen(app.playScreen);
+			app.setScreen(app.menuScreen);
 		}
 	}
 
 	@Override
 	public void render(float delta) {
 		update(delta);
-		Gdx.gl.glClearColor(0, 0.5f, 0, 1);
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		app.batch.setProjectionMatrix(app.uiCamera.combined);
 		app.batch.begin();
+		app.font1.draw(app.batch, "Loading...", 5, 15);
 		app.batch.end();
 		
 	}

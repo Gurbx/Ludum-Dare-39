@@ -16,17 +16,22 @@ public class UI implements GameInterface {
 	private final Application app;
 	private Player player;
 	private World world;
-	private Sprite hp;
+	private Sprite hp, energy;
 	private Sprite playerHPBar, playerEnergyBar, generatorLeftBar, generatorRightBar;
 	private Sprite timeWarp;
 	private float timeModifier;
+	private float barWidth;
 	
 	public UI(TextureAtlas atlas, Application app, Player player, World world) {
 		this.app = app;
 		this.player = player;
 		this.world = world;
+		energy = new Sprite(atlas.findRegion("powerIcon"));
+		energy.setPosition(Constants.UI_VIRTUAL_WIDTH - 130, Constants.UI_VIRTUAL_HEIGHT - 36);
+		energy.setScale(0.75f);
 		hp = new Sprite(atlas.findRegion("heart"));
-		hp.setPosition(Constants.UI_VIRTUAL_WIDTH - 80, Constants.UI_VIRTUAL_HEIGHT - 20);
+		hp.setScale(0.75f);
+		hp.setPosition(Constants.UI_VIRTUAL_WIDTH - 130, Constants.UI_VIRTUAL_HEIGHT - 20);
 		timeWarp = new Sprite(atlas.findRegion("timeWarp"));
 		timeWarp.setPosition(0, 0);
 		initBars(atlas);
@@ -34,10 +39,11 @@ public class UI implements GameInterface {
 
 	private void initBars(TextureAtlas atlas) {
 		TextureRegion barTex = atlas.findRegion("bar");
+		barWidth = barTex.getRegionWidth();
 		playerHPBar = new Sprite(barTex);
-		playerHPBar.setPosition(Constants.UI_VIRTUAL_WIDTH - 60, Constants.UI_VIRTUAL_HEIGHT - 20);
+		playerHPBar.setPosition(Constants.UI_VIRTUAL_WIDTH - barWidth-10, Constants.UI_VIRTUAL_HEIGHT - 20);
 		playerEnergyBar = new Sprite(barTex);
-		playerEnergyBar.setPosition(Constants.UI_VIRTUAL_WIDTH - 60, Constants.UI_VIRTUAL_HEIGHT - 36);
+		playerEnergyBar.setPosition(Constants.UI_VIRTUAL_WIDTH - barWidth-10, Constants.UI_VIRTUAL_HEIGHT - 36);
 		generatorLeftBar = new Sprite(barTex);
 		generatorLeftBar.setPosition(10, Constants.UI_VIRTUAL_HEIGHT - 20);
 		generatorRightBar = new Sprite(barTex);
@@ -58,6 +64,7 @@ public class UI implements GameInterface {
 		generatorLeftBar.draw(batch);
 		generatorRightBar.draw(batch);
 		hp.draw(batch);
+		energy.draw(batch);
 		
 		//Render timer
 		app.font1.draw(batch, "Survive: " + world.getCountdownTimer(), Constants.UI_VIRTUAL_WIDTH*0.5f - 30 , Constants.UI_VIRTUAL_HEIGHT - 10);
@@ -69,7 +76,7 @@ public class UI implements GameInterface {
 		app.shapeRenderer.setColor(Color.YELLOW);
 		app.shapeRenderer.rect(playerEnergyBar.getX()+3, playerEnergyBar.getY(), playerEnergyBar.getWidth()*player.getEnergy()/player.getMaxEnergy() -6, playerEnergyBar.getHeight());
 		//Player HP
-		app.shapeRenderer.setColor(Color.RED);
+		app.shapeRenderer.setColor(0.8f, 0f, 0f, 1f);
 		app.shapeRenderer.rect(playerHPBar.getX()+3, playerHPBar.getY(), playerHPBar.getWidth()*player.getHealth()/player.getMaxHealth() -6, playerHPBar.getHeight());
 		
 		//Generator left

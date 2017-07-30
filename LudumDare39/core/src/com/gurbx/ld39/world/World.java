@@ -40,8 +40,11 @@ public class World implements GameInterface {
 	
 	private void initPowerGenerators(TextureAtlas atlas) {
 		TextureRegion generatorTexture = atlas.findRegion("powerGenerator");
-		powerGeneratorLeft = new PowerGenerator(400, groundHeight + generatorTexture.getRegionHeight()*0.5f , generatorTexture);
-		powerGeneratorRight = new PowerGenerator(1200, groundHeight + generatorTexture.getRegionHeight()*0.5f , generatorTexture);
+		TextureRegion damagedTexture1 = atlas.findRegion("powerGeneratorDamaged1");
+		TextureRegion damagedTexture2 = atlas.findRegion("powerGeneratorDamaged2");
+		TextureRegion damagedTexture3 = atlas.findRegion("powerGeneratorDamaged3");
+		powerGeneratorLeft = new PowerGenerator(400, groundHeight + generatorTexture.getRegionHeight()*0.5f , generatorTexture, damagedTexture1, damagedTexture2, damagedTexture3);
+		powerGeneratorRight = new PowerGenerator(1200, groundHeight + generatorTexture.getRegionHeight()*0.5f , generatorTexture, damagedTexture1, damagedTexture2, damagedTexture3);
 		
 	}
 
