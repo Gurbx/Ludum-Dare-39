@@ -181,6 +181,7 @@ public class Player implements GameInterface {
 	}
 	
 	public void shoot(float mouseX, float mouseY) {
+		if (rolling) return;
 		if (!useEnergy(3)) return;
 		float modifier = 5;
 		if (flipX) modifier = -5;
@@ -190,6 +191,7 @@ public class Player implements GameInterface {
 	}
 	
 	public void shootHeavy(float mouseX, float mouseY) {
+		if (rolling) return;
 		if (!useEnergy(10)) return;
 		float modifier = 5;
 		if (flipX) modifier = -5;
@@ -233,6 +235,7 @@ public class Player implements GameInterface {
 			dx = 0;
 			//JUMP
 			if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+				if (rolling) return;
 				yModifier = - 400f;
 				jumping = true;
 			}
@@ -335,8 +338,8 @@ public class Player implements GameInterface {
 		
 		batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), position.x - animationWidth*0.5f, position.y-height*0.5f,
 				animationWidth, height);
-		gun.draw(batch);
-		if (moving) head.draw(batch);
+		if (!rolling) gun.draw(batch);
+		if ((moving || jumping) && !rolling) head.draw(batch);
 	}
 
 	@Override
