@@ -40,14 +40,14 @@ public class PlayScreen extends GameScreen {
 //		sound = new SoundHandler(app);
 		generalAtlas = app.assets.get("img/generalPack.atlas", TextureAtlas.class);
 		particleHandler = new ParticleEffectHandler(generalAtlas);
-		world = new World(app);
+		world = new World(app, generalAtlas);
 		player = new Player(world, generalAtlas);
 		app.camera.position.set(player.getPosition(), 0);
 		input = new Input(player);
 		enemyHandler = new EnemyHandler(generalAtlas, world, player);
 		playerProjectileHandler = new PlayerProjectileHandler(enemyHandler.getEnemies());
 		player.setEnemyHandler(enemyHandler, playerProjectileHandler);
-		ui = new UI(generalAtlas, app, player);
+		ui = new UI(generalAtlas, app, player, world);
 		
 		Gdx.input.setInputProcessor(input);
 	}
@@ -88,6 +88,7 @@ public class PlayScreen extends GameScreen {
 		
 		app.batch.setProjectionMatrix(app.camera.combined);
 		app.batch.begin();
+		world.render(app.batch);
 		particleHandler.renderBehindTowers(app.batch, delta * timeModifier);
 		enemyHandler.render(app.batch);
 		player.render(app.batch);

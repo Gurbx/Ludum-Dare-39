@@ -1,6 +1,8 @@
 package com.gurbx.ld39.world;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -13,6 +15,8 @@ import com.gurbx.ld39.Application;
 import com.gurbx.ld39.utils.GameInterface;
 
 public class World implements GameInterface {
+	private final float COUNTDOWN_TIME = 120;
+	private float countdownTimer = COUNTDOWN_TIME;
 	private final float GRAVITY = 800f;
 	private final Application app;
 	private float groundX, groundY;
@@ -20,8 +24,9 @@ public class World implements GameInterface {
 	private float levelWidth, levelHeight;
 	private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
+    private PowerGenerator powerGeneratorLeft, powerGeneratorRight;
     
-    public World(Application app) {
+    public World(Application app, TextureAtlas atlas) {
     	this.app = app;
     	tiledMap = app.assets.get("maps/worldMap.tmx", TiledMap.class);
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
@@ -29,8 +34,16 @@ public class World implements GameInterface {
         levelWidth = layer.getWidth() * layer.getTileWidth();
         levelHeight = layer.getHeight() * layer.getTileHeight();
         initGround();
+        initPowerGenerators(atlas);
 	}
 	
+	private void initPowerGenerators(TextureAtlas atlas) {
+		TextureRegion generatorTexture = atlas.findRegion("powerGenerator");
+		powerGeneratorLeft = new PowerGenerator(400, groundHeight + generatorTexture.getRegionHeight()*0.5f , generatorTexture);
+		powerGeneratorRight = new PowerGenerator(1200, groundHeight + generatorTexture.getRegionHeight()*0.5f , generatorTexture);
+		
+	}
+
 	private void initGround() {
         MapObjects objects = tiledMap.getLayers().get("ground").getObjects();
         for (MapObject object : objects) {
@@ -46,6 +59,9 @@ public class World implements GameInterface {
 
 	@Override
 	public void update(float delta) {
+		countdownTimer -= delta;
+		powerGeneratorLeft.update(delta);
+		powerGeneratorRight.update(delta);
 
 		
 	}
@@ -58,7 +74,8 @@ public class World implements GameInterface {
 	
 	@Override
 	public void render(SpriteBatch batch) {
-		// TODO Auto-generated method stub
+		powerGeneratorLeft.render(batch);
+		powerGeneratorRight.render(batch);
 		
 	}
 	
@@ -70,10 +87,24 @@ public class World implements GameInterface {
 		return false;
 	}
 	
+	//Returns closest generator to point given
+	public PowerGenerator getClosestPowerGenerator(float x1, float y1) {
+		float y2 = powerGeneratorLeft.getY();
+		float x2 = powerGeneratorLeft.getX();
+		float distance1 = (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		y2 = powerGeneratorRight.getY();
+		x2 = powerGeneratorRight.getX();
+		float distance2 = (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+		if (distance1 > distance2) return powerGeneratorRight;
+		return powerGeneratorLeft;
+	}
+	
 	
 	@Override
 	public void dispose() {
 		tiledMap.dispose();
+		powerGeneratorLeft.dispose();
+		powerGeneratorRight.dispose();
 	}
 
 	
@@ -103,6 +134,18 @@ public class World implements GameInterface {
 	
 	public float getGravity() {
 		return GRAVITY;
+	}
+	
+	public PowerGenerator getLeftGenerator() {
+		return powerGeneratorLeft;
+	}
+	
+	public PowerGenerator getRightGenerator() {
+		return powerGeneratorRight;
+	}
+	
+	public int getCountdownTimer() {
+		return (int) countdownTimer;
 	}
 	
 	

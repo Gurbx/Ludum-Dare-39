@@ -22,6 +22,14 @@ import com.gurbx.ld39.world.World;
 public class Player implements GameInterface {
 	private float health;
 	private final int MAX_HEALTH = 100;
+	private float energy;
+	private final int MAX_ENERGY = 100;
+	private final float ENERGY_REGEN = 20f;
+	private final float ENERGT_REG_ACC = 1f;
+	private float energtAcc;
+	private final float ENERGY_TIMER_TIME = 1f;
+	private float energyTimer;
+	
 	
 	private final float MAX_SPEED = 5f;
 	private final float ACCELERATION = 100f;
@@ -52,12 +60,14 @@ public class Player implements GameInterface {
 	
 	public Player(World world, TextureAtlas generalAtlas) {
 		health = MAX_HEALTH;
+		energy = MAX_ENERGY;
 		this.world = world;
 		initAnimations(generalAtlas);
 		position = new Vector2(world.getGroundWidth()*0.5f, world.getGroundHeight() + height*0.5f);
 		flipX = false;
 		projectileTex = generalAtlas.findRegion("particle1");
 		justHit = false;
+		energtAcc = 1;
 	}
 	
 	public void setEnemyHandler(EnemyHandler enemyHandler, PlayerProjectileHandler playerProjectileHandler) {
@@ -108,10 +118,21 @@ public class Player implements GameInterface {
 	@Override
 	public void update(float delta) {
 		elapsedTime += delta;
+		handleEnergy(delta);
 		handleMovement(delta);
 		handleGravity(delta);
 		handleAnimations();
 		handleAttack(delta);
+	}
+
+	private void handleEnergy(float delta) {
+		if (energy < 0) energy = 0;
+		energyTimer -= delta;
+		if (energyTimer <= 0) {
+			if (energy < MAX_ENERGY) energy += ENERGY_REGEN * delta;
+		}
+
+
 	}
 
 	private void handleAttack(float delta) {
@@ -121,6 +142,8 @@ public class Player implements GameInterface {
 		}
 		
 		if (Gdx.input.isKeyJustPressed(Keys.S)) {
+			if (!useEnergy(5)) return;
+			
 			float modifier = 5;
 			if (flipX) modifier = -5;
 			projectileHandler.addProjectile(new FriendlyProjectile(position.x + modifier, position.y, position.x + modifier*2,  position.y, 
@@ -129,6 +152,13 @@ public class Player implements GameInterface {
 		}
 		
 		
+	}
+
+	private boolean useEnergy(int enrg) {
+		if (this.energy < enrg) return false;
+		this.energy -= enrg;
+		energyTimer = ENERGY_TIMER_TIME;
+		return true;
 	}
 
 	private void handleAnimations() {
@@ -257,6 +287,14 @@ public class Player implements GameInterface {
 
 	public float getMaxHealth() {
 		return MAX_HEALTH;
+	}
+	
+	public float getEnergy() {
+		return energy;
+	}
+	
+	public float getMaxEnergy() {
+		return MAX_ENERGY;
 	}
 
 	public void damage(float damage, float impact, float x, float y) {

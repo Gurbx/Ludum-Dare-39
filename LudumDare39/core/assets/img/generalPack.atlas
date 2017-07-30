@@ -5,322 +5,329 @@ filter: Nearest,Nearest
 repeat: none
 timeWarp
   rotate: false
-  xy: 1, 240
+  xy: 1, 241
   size: 480, 270
   orig: 480, 270
   offset: 0, 0
   index: -1
+powerGenerator
+  rotate: false
+  xy: 1, 143
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
 particle5
   rotate: false
-  xy: 1, 174
+  xy: 1, 77
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 particleBlur
   rotate: false
-  xy: 1, 108
+  xy: 99, 175
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 particleShadow
   rotate: false
-  xy: 67, 191
+  xy: 1, 28
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
 particleSmooth
   rotate: false
-  xy: 1, 59
+  xy: 165, 192
   size: 47, 47
   orig: 47, 47
   offset: 0, 0
   index: -1
+particle99
+  rotate: false
+  xy: 1, 1
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
 bar
   rotate: false
-  xy: 116, 224
+  xy: 99, 159
   size: 57, 14
   orig: 57, 14
   offset: 0, 0
   index: -1
 playerJump1
   rotate: false
-  xy: 67, 151
+  xy: 214, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerJump2
   rotate: false
-  xy: 1, 19
+  xy: 248, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerLand1
   rotate: false
-  xy: 67, 111
+  xy: 282, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerLand3
   rotate: false
-  xy: 67, 111
+  xy: 282, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
-particle4
-  rotate: false
-  xy: 116, 190
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
 playerLand2
   rotate: false
-  xy: 150, 184
+  xy: 316, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRoll1
   rotate: false
-  xy: 101, 150
+  xy: 350, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRoll2
   rotate: false
-  xy: 101, 110
+  xy: 384, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRoll3
   rotate: false
-  xy: 135, 144
+  xy: 418, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRoll4
   rotate: false
-  xy: 135, 104
+  xy: 67, 103
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRoll5
   rotate: false
-  xy: 184, 200
+  xy: 452, 201
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
+particle4
+  rotate: false
+  xy: 67, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 playerRoll6
   rotate: false
-  xy: 218, 200
+  xy: 101, 119
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRoll7
   rotate: false
-  xy: 252, 200
+  xy: 101, 79
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun1
   rotate: false
-  xy: 286, 200
+  xy: 135, 119
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun2
   rotate: false
-  xy: 320, 200
+  xy: 135, 79
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun6
   rotate: false
-  xy: 320, 200
+  xy: 135, 79
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun3
   rotate: false
-  xy: 354, 200
+  xy: 50, 29
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun7
   rotate: false
-  xy: 354, 200
+  xy: 50, 29
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun4
   rotate: false
-  xy: 388, 200
+  xy: 84, 29
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun5
   rotate: false
-  xy: 422, 200
+  xy: 118, 39
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 playerRun8
   rotate: false
-  xy: 456, 200
-  size: 32, 38
-  orig: 32, 38
-  offset: 0, 0
-  index: -1
-playerSlide1
-  rotate: false
-  xy: 50, 68
-  size: 32, 38
-  orig: 32, 38
-  offset: 0, 0
-  index: -1
-particle99
-  rotate: false
-  xy: 483, 485
-  size: 26, 25
-  orig: 26, 25
-  offset: 0, 0
-  index: -1
-playerSlide2
-  rotate: false
-  xy: 35, 19
-  size: 32, 38
-  orig: 32, 38
-  offset: 0, 0
-  index: -1
-playerStand1
-  rotate: false
-  xy: 169, 144
-  size: 32, 38
-  orig: 32, 38
-  offset: 0, 0
-  index: -1
-playerStand2
-  rotate: false
-  xy: 169, 104
-  size: 32, 38
-  orig: 32, 38
-  offset: 0, 0
-  index: -1
-playerStand3
-  rotate: false
-  xy: 203, 160
-  size: 32, 38
-  orig: 32, 38
-  offset: 0, 0
-  index: -1
-playerStand4
-  rotate: false
-  xy: 203, 120
-  size: 32, 38
-  orig: 32, 38
-  offset: 0, 0
-  index: -1
-zombieRun1
-  rotate: false
-  xy: 237, 160
-  size: 32, 38
-  orig: 32, 38
-  offset: 0, 0
-  index: -1
-zombieRun2
-  rotate: false
-  xy: 237, 120
-  size: 32, 38
-  orig: 32, 38
-  offset: 0, 0
-  index: -1
-zombieRun3
-  rotate: false
-  xy: 271, 160
-  size: 32, 38
-  orig: 32, 38
-  offset: 0, 0
-  index: -1
-zombieRun4
-  rotate: false
-  xy: 271, 120
+  xy: 152, 39
   size: 32, 38
   orig: 32, 38
   offset: 0, 0
   index: -1
 swipe1
   rotate: false
-  xy: 305, 166
+  xy: 118, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 swipe2
   rotate: false
-  xy: 305, 132
+  xy: 152, 5
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+playerSlide1
+  rotate: false
+  xy: 214, 161
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerSlide2
+  rotate: false
+  xy: 248, 161
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerStand1
+  rotate: false
+  xy: 282, 161
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerStand2
+  rotate: false
+  xy: 316, 161
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerStand3
+  rotate: false
+  xy: 350, 161
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+playerStand4
+  rotate: false
+  xy: 384, 161
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+zombieRun1
+  rotate: false
+  xy: 418, 161
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+zombieRun2
+  rotate: false
+  xy: 452, 161
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+zombieRun3
+  rotate: false
+  xy: 169, 152
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
+zombieRun4
+  rotate: false
+  xy: 169, 112
+  size: 32, 38
+  orig: 32, 38
+  offset: 0, 0
+  index: -1
 swipe3
   rotate: false
-  xy: 339, 166
+  xy: 203, 127
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 swipe4
   rotate: false
-  xy: 339, 132
+  xy: 237, 127
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-heart
-  rotate: false
-  xy: 184, 184
-  size: 16, 14
-  orig: 16, 14
-  offset: 0, 0
-  index: -1
 particle3
   rotate: false
-  xy: 1, 1
+  xy: 483, 495
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
+heart
+  rotate: false
+  xy: 29, 12
+  size: 16, 14
+  orig: 16, 14
+  offset: 0, 0
+  index: -1
 particle2
   rotate: false
-  xy: 483, 475
+  xy: 101, 69
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 particle1
   rotate: false
-  xy: 135, 184
+  xy: 50, 71
   size: 4, 4
   orig: 4, 4
   offset: 0, 0

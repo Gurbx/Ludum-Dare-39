@@ -4,29 +4,45 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.gurbx.ld39.Application;
 import com.gurbx.ld39.player.Player;
 import com.gurbx.ld39.utils.Constants;
 import com.gurbx.ld39.utils.GameInterface;
+import com.gurbx.ld39.world.World;
 
 public class UI implements GameInterface {
 	private final Application app;
 	private Player player;
+	private World world;
 	private Sprite hp;
-	private Sprite bar;
+	private Sprite playerHPBar, playerEnergyBar, generatorLeftBar, generatorRightBar;
 	private Sprite timeWarp;
 	private float timeModifier;
 	
-	public UI(TextureAtlas atlas, Application app, Player player) {
+	public UI(TextureAtlas atlas, Application app, Player player, World world) {
 		this.app = app;
 		this.player = player;
+		this.world = world;
 		hp = new Sprite(atlas.findRegion("heart"));
 		hp.setPosition(Constants.UI_VIRTUAL_WIDTH - 80, Constants.UI_VIRTUAL_HEIGHT - 20);
-		bar = new Sprite(atlas.findRegion("bar"));
-		bar.setPosition(Constants.UI_VIRTUAL_WIDTH - 60, Constants.UI_VIRTUAL_HEIGHT - 20);
 		timeWarp = new Sprite(atlas.findRegion("timeWarp"));
 		timeWarp.setPosition(0, 0);
+		initBars(atlas);
+	}
+
+	private void initBars(TextureAtlas atlas) {
+		TextureRegion barTex = atlas.findRegion("bar");
+		playerHPBar = new Sprite(barTex);
+		playerHPBar.setPosition(Constants.UI_VIRTUAL_WIDTH - 60, Constants.UI_VIRTUAL_HEIGHT - 20);
+		playerEnergyBar = new Sprite(barTex);
+		playerEnergyBar.setPosition(Constants.UI_VIRTUAL_WIDTH - 60, Constants.UI_VIRTUAL_HEIGHT - 36);
+		generatorLeftBar = new Sprite(barTex);
+		generatorLeftBar.setPosition(10, Constants.UI_VIRTUAL_HEIGHT - 20);
+		generatorRightBar = new Sprite(barTex);
+		generatorRightBar.setPosition(10, Constants.UI_VIRTUAL_HEIGHT - 36);
+		
 	}
 
 	@Override
@@ -37,14 +53,28 @@ public class UI implements GameInterface {
 	@Override
 	public void render(SpriteBatch batch) {
 		timeWarp.draw(batch);
-		bar.draw(batch);
+		playerHPBar.draw(batch);
+		playerEnergyBar.draw(batch);
+		generatorLeftBar.draw(batch);
+		generatorRightBar.draw(batch);
 		hp.draw(batch);
+		
+		//Render timer
+		app.font1.draw(batch, "Survive: " + world.getCountdownTimer(), Constants.UI_VIRTUAL_WIDTH*0.5f - 30 , Constants.UI_VIRTUAL_HEIGHT - 10);
 	}
 	
 	public void renderBars() {
 		app.shapeRenderer.begin(ShapeType.Filled);
+		//Player ENERGY
+		app.shapeRenderer.setColor(Color.YELLOW);
+		app.shapeRenderer.rect(playerEnergyBar.getX()+3, playerEnergyBar.getY(), playerEnergyBar.getWidth()*player.getEnergy()/player.getMaxEnergy() -6, playerEnergyBar.getHeight());
+		//Player HP
 		app.shapeRenderer.setColor(Color.RED);
-		app.shapeRenderer.rect(bar.getX()+3, bar.getY(), bar.getWidth()*player.getHealth()/player.getMaxHealth() -6, bar.getHeight());
+		app.shapeRenderer.rect(playerHPBar.getX()+3, playerHPBar.getY(), playerHPBar.getWidth()*player.getHealth()/player.getMaxHealth() -6, playerHPBar.getHeight());
+		
+		//Generator left
+		app.shapeRenderer.rect(generatorLeftBar.getX()+3, generatorLeftBar.getY(), generatorLeftBar.getWidth()*world.getLeftGenerator().getHealth()/world.getLeftGenerator().getMaxHealth() -6, generatorLeftBar.getHeight());
+		app.shapeRenderer.rect(generatorRightBar.getX()+3, generatorRightBar.getY(), generatorRightBar.getWidth()*world.getRightGenerator().getHealth()/world.getRightGenerator().getMaxHealth() -6, generatorRightBar.getHeight());
 		app.shapeRenderer.end();
 	}
 

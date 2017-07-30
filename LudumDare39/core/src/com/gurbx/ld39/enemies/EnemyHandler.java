@@ -22,9 +22,6 @@ public class EnemyHandler implements GameInterface {
 		enemies = new ArrayList<>();
 		
 		enemies.add(new Enemy(atlas, new Vector2(400, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(400, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(400, 600), world, player));
-		enemies.add(new Enemy(atlas, new Vector2(400, 600), world, player));
 	}
 
 	@Override

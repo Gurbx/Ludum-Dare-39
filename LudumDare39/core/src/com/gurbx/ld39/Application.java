@@ -3,6 +3,7 @@ package com.gurbx.ld39;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -21,6 +22,8 @@ public class Application extends Game {
 	//Screens
 	public LoadingScreen loadingScreen;
 	public PlayScreen playScreen;
+	
+	public BitmapFont font1;
 	
 	@Override
 	public void create () {
@@ -42,6 +45,8 @@ public class Application extends Game {
 		camera.update();
 		uiCamera.update();
 		shapeRenderer = new ShapeRenderer();
+		
+		font1 = new BitmapFont();
 	}
 	
 	private void initScreens() {
@@ -72,5 +77,6 @@ public class Application extends Game {
 		loadingScreen.dispose();
 		playScreen.dispose();
 		shapeRenderer.dispose();
+		font1.dispose();
 	}
 }

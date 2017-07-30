@@ -10,12 +10,14 @@ import com.gurbx.ld39.player.Player;
 import com.gurbx.ld39.utils.GameInterface;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld39.utils.particles.ParticleEffectType;
+import com.gurbx.ld39.world.PowerGenerator;
 import com.gurbx.ld39.world.World;
 
 public class Enemy implements GameInterface {
 	private final float SPEED = 100f;
 	private final float FRICTION = 500f;
 	private Player player;
+	private PowerGenerator targetGenerator;
 	private Vector2 position;
 	private float health = 10;
 	private float attackCooldown = 1f;
@@ -43,6 +45,7 @@ public class Enemy implements GameInterface {
 		this.position = position;
 		this.flipX = false;
 		jumping = false;
+		targetGenerator = world.getClosestPowerGenerator(position.x, position.y);
 	}
 	
 	
@@ -81,12 +84,37 @@ public class Enemy implements GameInterface {
 	private void handleMovement(float delta) {
 		position.x += dx * delta;
 		if (jumping) return;
-		moveTowardsPlayer(delta);
+		if (getDistanceFromPlayer() < getDistanceFromTargetGenerator()) {
+			moveTowardsPlayer(delta);
+		} else {
+			moveTowardsGenerator(delta);
+		}
 		if (Math.abs(dx) > 0) {
 			if (dx > 0) dx -= FRICTION * delta;
 			if (dx < 0) dx += FRICTION * delta;
 		}
 		
+	}
+
+	private void moveTowardsGenerator(float delta) {
+		if (targetGenerator.getX() < position.x) {
+			position.x -= SPEED * delta;
+			flipX = true;
+		}
+		
+		if (targetGenerator.getX() > position.x) {
+			position.x += SPEED * delta;
+			flipX = false;
+		}
+		//Handle attack
+		attackTimer-=delta;
+		if (attackTimer <= 0) {
+			//Check if close enough to attack
+			if (overlaps(targetGenerator.getX(), targetGenerator.getY(), width + 10)) {
+				attackTimer = attackCooldown;
+				targetGenerator.damage(damage);
+			}
+		}
 	}
 
 
@@ -175,6 +203,18 @@ public class Enemy implements GameInterface {
 	
 	public Vector2 getPosition() {
 		return position;
+	}
+	
+	private float getDistanceFromPlayer() {
+		float distance = (float) Math.sqrt((position.x-player.getPosition().x)*(position.x-player.getPosition().x) 
+				+ (position.y- player.getPosition().y)*(position.y-player.getPosition().y));
+		return distance;
+	}
+	
+	private float getDistanceFromTargetGenerator() {
+		float distance = (float) Math.sqrt((position.x-targetGenerator.getX())*(position.x-targetGenerator.getX()) 
+				+ (position.y- targetGenerator.getY())*(position.y-targetGenerator.getY()));
+		return distance;
 	}
 	
 	
