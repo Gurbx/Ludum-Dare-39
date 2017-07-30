@@ -17,6 +17,7 @@ import com.gurbx.ld39.screens.IntroScreen;
 import com.gurbx.ld39.screens.LoadingScreen;
 import com.gurbx.ld39.screens.MenuScreen;
 import com.gurbx.ld39.screens.PlayScreen;
+import com.gurbx.ld39.screens.WinScreen;
 import com.gurbx.ld39.utils.Constants;
 
 public class Application extends Game {
@@ -32,6 +33,7 @@ public class Application extends Game {
 	public MenuScreen menuScreen;
 	public IntroScreen introScreen;
 	public GameOverScreen gameOverScreen;
+	public WinScreen winScreen;
 	
 	public BitmapFont font1, font2;
 	
@@ -78,6 +80,7 @@ public class Application extends Game {
 		gameOverScreen = new GameOverScreen(this);
 		menuScreen = new MenuScreen(this);
 		introScreen = new IntroScreen(this);
+		winScreen = new WinScreen(this);
 		setScreen(loadingScreen);
 	}
 
@@ -108,5 +111,6 @@ public class Application extends Game {
 		menuScreen.dispose();
 		introScreen.dispose();
 		gameOverScreen.dispose();
+		winScreen.dispose();
 	}
 }

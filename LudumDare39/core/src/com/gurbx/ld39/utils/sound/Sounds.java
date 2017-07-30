@@ -2,10 +2,13 @@ package com.gurbx.ld39.utils.sound;
 
 public enum Sounds {
 	LASER ("sound/laser2.wav", 1f),
+	LASER2 ("sound/laser4.wav", 0.5f),
 	JUMP ("sound/jump.wav", 1f),
 	ROLL ("sound/Roll.wav", 1f),
 	EXPLOSION1 ("sound/explosion1.wav", 0.6f),
+	PICKUP ("sound/pickup.wav", 1f),
 	SELECT ("sound/select.wav", 1f),
+	SLOW ("sound/slow.wav", 1f),
 	HIT ("sound/hit1.wav", 1f),
 	HIT2 ("sound/hit2.wav", 1f);
 	

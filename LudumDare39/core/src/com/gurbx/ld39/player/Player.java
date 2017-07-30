@@ -203,7 +203,7 @@ public class Player implements GameInterface {
 		projectileHandler.addProjectile(new FriendlyProjectile(position.x + dx, position.y + dy, mouseX,  mouseY, 
 				500, projectileHeavyTex, enemyHandler.getEnemies(), 6, 500, ProjectileType.PLAYER_ATTACK));
 		ParticleEffectHandler.addParticleEffect(ParticleEffectType.FLARE, position.x + dx, position.y + dy);
-		SoundHandler.playSound(Sounds.LASER);
+		SoundHandler.playSound(Sounds.LASER2);
 	}
 
 	private boolean useEnergy(int enrg) {

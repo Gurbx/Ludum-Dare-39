@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -25,9 +26,12 @@ public class MenuScreen extends GameScreen {
 	private TextButton playButton;
 	private SoundHandler sound;
 	
+	private Label info;
+	
 	private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
  
+    
 
 	public MenuScreen(Application app) {
 		super(app);
@@ -38,7 +42,9 @@ public class MenuScreen extends GameScreen {
 	public void show() {
 		stage = new Stage(app.uiViewport);
 		atlas = app.assets.get("img/generalPack.atlas", TextureAtlas.class);
-		LabelStyle style = new LabelStyle(app.font1, Color.WHITE);
+		LabelStyle style = new LabelStyle(app.font2, Color.WHITE);
+		info = new Label("Made by Philip Lindberg in 48 hours for Ludum Dare 39", style);
+		info.setPosition(Constants.UI_VIRTUAL_WIDTH*0.5f - info.getWidth()*0.5f, 5);
 		initButtons();
 		Gdx.input.setInputProcessor(stage);
 		sound = new SoundHandler(app);
@@ -46,6 +52,10 @@ public class MenuScreen extends GameScreen {
 		//MAP
     	tiledMap = app.assets.get("maps/uiMap.tmx", TiledMap.class);
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+		
+		stage.addActor(info);
+		
+		
 	}
 	
 	private void initButtons() {
@@ -61,7 +71,7 @@ public class MenuScreen extends GameScreen {
         playButton.addListener( new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-            	app.setScreen(app.playScreen);
+            	app.setScreen(app.introScreen);
             	SoundHandler.playSound(Sounds.SELECT);
             };
         });

@@ -131,7 +131,7 @@ public class GameOverScreen extends GameScreen {
 	@Override
 	public void dispose() {
 		if (stage!=null) stage.dispose();
-		tiledMap.dispose();
+		if (tiledMap != null ) tiledMap.dispose();
 		
 	}
 

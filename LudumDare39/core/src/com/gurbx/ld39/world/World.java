@@ -72,6 +72,10 @@ public class World implements GameInterface {
 			SoundHandler.muteSounds();
 			app.setScreen(app.gameOverScreen);
 		}
+		if (countdownTimer <= 0) {
+			SoundHandler.muteSounds();
+			app.setScreen(app.winScreen);
+		}
 
 		
 	}

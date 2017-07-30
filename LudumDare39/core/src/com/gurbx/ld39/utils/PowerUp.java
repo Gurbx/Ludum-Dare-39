@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.gurbx.ld39.player.Player;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld39.utils.particles.ParticleEffectType;
+import com.gurbx.ld39.utils.sound.SoundHandler;
+import com.gurbx.ld39.utils.sound.Sounds;
 
 public class PowerUp implements GameInterface {
 	private Vector2 position;
@@ -42,7 +44,8 @@ public class PowerUp implements GameInterface {
 		elapsedTime += delta;
 		if (overlaps(player.getPosition().x, player.getPosition().y, 32)) {
 			shouldRemove = true;
-			ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
+			SoundHandler.playSound(Sounds.PICKUP);
+			ParticleEffectHandler.addParticleEffect(ParticleEffectType.PICKUP, position.x, position.y);
 		}
 		
 	}

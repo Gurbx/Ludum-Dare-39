@@ -16,7 +16,9 @@ import com.gurbx.ld39.utils.Constants;
 import com.gurbx.ld39.utils.Input;
 import com.gurbx.ld39.utils.PowerUpHandler;
 import com.gurbx.ld39.utils.particles.ParticleEffectHandler;
+import com.gurbx.ld39.utils.particles.ParticleEffectType;
 import com.gurbx.ld39.utils.sound.SoundHandler;
+import com.gurbx.ld39.utils.sound.Sounds;
 import com.gurbx.ld39.utils.timewarp.TimeWarp;
 import com.gurbx.ld39.world.World;
 
@@ -84,6 +86,8 @@ public class PlayScreen extends GameScreen {
 		if (Gdx.input.isKeyJustPressed(Keys.E)) {
 			if (player.getTimePower() >= 1) {
 				player.timeWarpUsed();
+				SoundHandler.playSound(Sounds.SLOW);
+				ParticleEffectHandler.addParticleEffect(ParticleEffectType.PICKUP, player.getPosition().x, player.getPosition().y);
 				timeWarp.warpTime(5.5f, 1f, 1f, 0.1f);
 			}
 		}
