@@ -9,6 +9,7 @@ public enum ParticleEffectType {
 	SPAWN("img/spawn.p", 20, false),
 	FIRE("img/fire.p", 20, false),
 	PICKUP("img/pickup.p", 10, false),
+	HIT2("img/hit2.p", 10, false),
 	HIT("img/hi1t.p", 40, false);
 	
 	private String path;
