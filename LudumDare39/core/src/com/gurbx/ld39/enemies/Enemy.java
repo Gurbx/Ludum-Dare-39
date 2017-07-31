@@ -133,6 +133,7 @@ public class Enemy implements GameInterface {
 			if (overlaps(targetGenerator.getX(), targetGenerator.getY(), width + 10)) {
 				attackTimer = attackCooldown;
 				targetGenerator.damage(damage);
+				SoundHandler.playSound(Sounds.ATTACK);
 			}
 		}
 	}
@@ -154,6 +155,7 @@ public class Enemy implements GameInterface {
 			//Check if close enough to attack
 			if (overlaps(player.getPosition().x, player.getPosition().y, width + 10)) {
 				attackTimer = attackCooldown;
+				SoundHandler.playSound(Sounds.ATTACK);
 				player.damage(damage, 200, position.x, position.y);
 			}
 		}

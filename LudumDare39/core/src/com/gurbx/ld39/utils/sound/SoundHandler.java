@@ -12,13 +12,8 @@ public class SoundHandler {
 	private static HashMap<Sounds, Sound> sounds;
 	private static ArrayList<TimedSound> timedSounds;
 	
-	//Music
-	private static Music music;
-	
 	public SoundHandler(Application app) {
 		//Music
-		music = Gdx.audio.newMusic(Gdx.files.internal("sound/musik.wav"));
-		music.setLooping(true);
 //		music.play();
 		
 		//Sounds
@@ -54,7 +49,6 @@ public class SoundHandler {
 	}
 	
 	public static void muteSounds() {
-		music.stop();
 	}
 	
 	
@@ -62,7 +56,6 @@ public class SoundHandler {
 		for (Sounds key : sounds.keySet()) {
 			sounds.get(key).dispose();
 		}
-		music.dispose();
 	}
 
 }

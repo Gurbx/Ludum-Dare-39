@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -25,6 +27,7 @@ public class MenuScreen extends GameScreen {
 	private Stage stage;
 	private TextButton playButton;
 	private SoundHandler sound;
+	private Sprite title;
 	
 	private Label info;
 	
@@ -48,6 +51,10 @@ public class MenuScreen extends GameScreen {
 		initButtons();
 		Gdx.input.setInputProcessor(stage);
 		sound = new SoundHandler(app);
+		
+		TextureRegion tex = atlas.findRegion("powerwatchTitle");
+		title = new Sprite(tex);
+		title.setPosition(Constants.UI_VIRTUAL_WIDTH*0.5f - tex.getRegionWidth()*0.5f, 170);
 		
 		//MAP
     	tiledMap = app.assets.get("maps/uiMap.tmx", TiledMap.class);
@@ -96,6 +103,7 @@ public class MenuScreen extends GameScreen {
 		
 		app.batch.setProjectionMatrix(app.uiCamera.combined);
 		app.batch.begin();
+		title.draw(app.batch);
 		app.batch.end();
 		
 		stage.draw();

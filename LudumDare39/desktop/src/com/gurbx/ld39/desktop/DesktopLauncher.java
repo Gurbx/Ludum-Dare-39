@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.width = 960;
 		config.height = 540;
 		config.vSyncEnabled = true;
+		config.title = "Powerwatch";
 		new LwjglApplication(new Application(), config);
 	}
 }
